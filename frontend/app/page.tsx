@@ -2,11 +2,11 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/landing/Hero';
 import Features from '@/components/landing/Features';
 import HowItWorks from '@/components/landing/HowItWorks';
-import ForWho from '@/components/landing/ForWho';
 import Stats from '@/components/landing/Stats';
 import Testimonials from '@/components/landing/Testimonials';
 import CTA from '@/components/landing/CTA';
 import Footer from '@/components/landing/Footer';
+import ForWho from '@/components/landing/ForWho';
 
 export default function Home() {
   return (
