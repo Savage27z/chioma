@@ -14,4 +14,6 @@ pub enum DataKey {
     AgreementToken(String),
     DepositInterestConfig(String),
     DepositInterest(String),
+    ErrorLog(u32),
+    ErrorLogCount,
 }

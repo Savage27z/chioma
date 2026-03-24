@@ -151,3 +151,13 @@ pub struct DepositInterest {
     pub last_accrual_date: u64,
     pub accrual_history: Vec<InterestAccrual>,
 }
+
+#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ErrorContext {
+    pub error_code: u32,
+    pub error_message: String,
+    pub details: String,
+    pub timestamp: u64,
+    pub operation: String,
+}

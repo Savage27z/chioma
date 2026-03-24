@@ -326,3 +326,19 @@ pub(crate) fn interest_distributed(
     }
     .publish(env);
 }
+
+#[contractevent]
+pub struct ErrorOccurred {
+    pub error_code: u32,
+    pub operation: String,
+    pub timestamp: u64,
+}
+
+pub(crate) fn error_occurred(env: &Env, error_code: u32, operation: String, timestamp: u64) {
+    ErrorOccurred {
+        error_code,
+        operation,
+        timestamp,
+    }
+    .publish(env);
+}

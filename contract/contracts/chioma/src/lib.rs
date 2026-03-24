@@ -25,6 +25,9 @@ mod tests_multi_token;
 #[cfg(test)]
 mod tests_deposit_interest;
 
+#[cfg(test)]
+mod tests_errors;
+
 pub use agreement::{
     cancel_agreement, create_agreement, create_agreement_with_token, get_agreement,
     get_agreement_count, get_agreement_token, get_payment_split, has_agreement,
@@ -39,8 +42,8 @@ pub use multi_token::{
 pub use storage::DataKey;
 pub use types::{
     AgreementStatus, AgreementWithToken, CompoundingFrequency, Config, ContractState,
-    DepositInterest, DepositInterestConfig, InterestAccrual, InterestRecipient, PauseState,
-    PaymentSplit, RentAgreement, SupportedToken, TokenExchangeRate,
+    DepositInterest, DepositInterestConfig, ErrorContext, InterestAccrual, InterestRecipient,
+    PauseState, PaymentSplit, RentAgreement, SupportedToken, TokenExchangeRate,
 };
 
 /// Chioma rental agreement contract.
@@ -573,5 +576,20 @@ impl Contract {
     pub fn process_interest_accruals(env: Env) -> Result<Vec<String>, RentalError> {
         Self::check_paused(&env)?;
         deposit_interest::process_interest_accruals(env)
+    }
+
+    /// Log an error context for diagnostics.
+    pub fn log_error(
+        env: Env,
+        error: RentalError,
+        operation: String,
+        details: String,
+    ) -> Result<(), RentalError> {
+        errors::log_error(&env, error, operation, details)
+    }
+
+    /// Retrieve the most recent error logs.
+    pub fn get_error_logs(env: Env, limit: u32) -> Result<Vec<ErrorContext>, RentalError> {
+        errors::get_error_logs(&env, limit)
     }
 }
