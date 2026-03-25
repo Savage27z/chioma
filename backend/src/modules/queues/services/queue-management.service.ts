@@ -27,7 +27,7 @@ export class QueueManagementService {
     @InjectQueue('documents') private documentsQueue: Queue,
     @InjectQueue('blockchain') private blockchainQueue: Queue,
     @InjectQueue('data-sync') private dataSyncQueue: Queue,
-  ) { }
+  ) {}
 
   /**
    * Add email job to queue

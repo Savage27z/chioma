@@ -9,11 +9,11 @@ export interface DisputeNotificationData {
   initiator: User;
   recipient?: User;
   action:
-  | 'created'
-  | 'evidence_added'
-  | 'comment_added'
-  | 'status_updated'
-  | 'resolved';
+    | 'created'
+    | 'evidence_added'
+    | 'comment_added'
+    | 'status_updated'
+    | 'resolved';
   additionalData?: any;
 }
 
@@ -186,7 +186,9 @@ export class DisputeNotificationService {
     // For now, we'll implement a placeholder that could be connected to
     // the actual notification system
 
-    this.logger.log(`Admin notification: ${title} - Dispute ${dispute.disputeId}`);
+    this.logger.log(
+      `Admin notification: ${title} - Dispute ${dispute.disputeId}`,
+    );
 
     // Example implementation:
     // const admins = await this.userRepository.find({ where: { role: UserRole.ADMIN } });
