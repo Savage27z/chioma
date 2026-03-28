@@ -26,10 +26,10 @@ export function LoadingOverlay({
       aria-live="polite"
       className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 bg-slate-900/60 backdrop-blur-sm ${className}`}
     >
-        <Spinner size="lg" label={message} />
-        {message ? (
-          <p className="text-sm font-medium text-white drop-shadow">{message}</p>
-        ) : null}
+      <Spinner size="lg" label={message} />
+      {message ? (
+        <p className="text-sm font-medium text-white drop-shadow">{message}</p>
+      ) : null}
     </div>
   );
 }

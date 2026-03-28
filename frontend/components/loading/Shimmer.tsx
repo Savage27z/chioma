@@ -18,10 +18,7 @@ const roundedMap = {
 /**
  * Shimmer-style pulse block for list rows and placeholders.
  */
-export function Shimmer({
-  className = '',
-  rounded = 'md',
-}: ShimmerProps) {
+export function Shimmer({ className = '', rounded = 'md' }: ShimmerProps) {
   return (
     <div
       aria-hidden

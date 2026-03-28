@@ -37,9 +37,7 @@ export function Spinner({
       <span
         className={`animate-spin rounded-full border-neutral-200 border-t-brand-blue ${sizeClasses[size]}`}
       />
-      {!decorative && label ? (
-        <span className="sr-only">{label}</span>
-      ) : null}
+      {!decorative && label ? <span className="sr-only">{label}</span> : null}
     </span>
   );
 }

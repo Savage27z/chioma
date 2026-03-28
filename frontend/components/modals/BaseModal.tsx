@@ -140,10 +140,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
                   aria-busy="true"
                   aria-live="polite"
                 >
-                  <Spinner
-                    size="md"
-                    label={loadingMessage ?? 'Loading'}
-                  />
+                  <Spinner size="md" label={loadingMessage ?? 'Loading'} />
                   {loadingMessage ? (
                     <p className="text-center text-sm text-neutral-600 dark:text-neutral-300">
                       {loadingMessage}

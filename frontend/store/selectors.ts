@@ -63,8 +63,7 @@ export const selectIsOnline = (state: UIStore) => state.isOnline;
 
 // ─── Loading store (scoped keys) ───────────────────────────────────────────
 
-export const selectIsLoadingKey =
-  (key: string) => (state: LoadingStore) =>
-    state.loading.get(key) ?? false;
+export const selectIsLoadingKey = (key: string) => (state: LoadingStore) =>
+  state.loading.get(key) ?? false;
 
 export const selectAnyLoading = (state: LoadingStore) => state.loading.size > 0;

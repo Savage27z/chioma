@@ -3,8 +3,7 @@
 import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { Spinner } from './Spinner';
 
-export interface LoadingButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface LoadingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   children: ReactNode;
   spinnerPosition?: 'start' | 'end';
