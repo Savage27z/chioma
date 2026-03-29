@@ -64,7 +64,7 @@ The API will be available at `http://localhost:5000/api` and Swagger UI at `http
 | [Documentation Standards](./DOCUMENTATION-STANDARDS.md) | README, code comments, API docs, architecture standards |
 | [Authentication Guide](./api/AUTHENTICATION.md) | JWT flow, SEP-0010, refresh tokens |
 | [Error Codes](./api/ERROR-CODES.md) | All error codes, HTTP status mapping, examples |
-| [Rate Limiting](./api/RATE-LIMITING.md) | Limits, quotas, headers, retry guidance |
+| [Rate Limiting](./api/RATE-LIMITING.md) | Rate limiting strategy, throttling, headers, and monitoring |
 | [Pagination](./api/PAGINATION.md) | Cursor and offset pagination standards |
 | [API Versioning](./api/API-VERSIONING.md) | URI versioning strategy and deprecation policy |
 | [API Changelog](./api/API-CHANGELOG.md) | History of breaking and non-breaking changes |
@@ -193,6 +193,8 @@ Security features active in every request:
 | ----------------------------------------------------------------- | ----------------------- |
 | [Contributing](./community/CONTRIBUTING.md)                       | How to contribute       |
 | [Contribution Guidelines](./community/CONTRIBUTION_GUIDELINES.md) | Detailed guidelines     |
+| [Code Review Standards](./community/CODE_REVIEW_STANDARDS.md)     | Review criteria, approvals, and feedback rules |
+| [Testing Standards](./community/TESTING_STANDARDS.md)             | Unit/integration/E2E standards and coverage requirements |
 | [Code of Conduct](./community/CODE_OF_CONDUCT.md)                 | Community standards     |
 | [Community Support](./community/COMMUNITY-SUPPORT.md)             | Where to get help       |
 | [Team Policies](./community/TEAM_POLICIES.md)                     | Internal team standards |
