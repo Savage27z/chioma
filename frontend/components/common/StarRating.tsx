@@ -27,8 +27,8 @@ export function StarRating({ value, readonly = false, onChange, size = 20 }: Sta
                     type="button"
                     onClick={() => handleClick(star)}
                     className={`p-1 rounded-full transition-colors ${star <= value
-                            ? 'text-amber-400 fill-amber-400'
-                            : 'text-neutral-300 hover:text-amber-400'
+                        ? 'text-amber-400 fill-amber-400'
+                        : 'text-neutral-300 hover:text-amber-400'
                         } ${readonly ? 'cursor-default' : 'hover:scale-110 active:scale-95'}`}
                     disabled={readonly}
                     aria-label={`Star rating ${star}`}
