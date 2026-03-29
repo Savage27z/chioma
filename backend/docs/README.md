@@ -6,19 +6,20 @@ Welcome to the Chioma backend documentation hub. This index covers all aspects o
 
 ## Navigation
 
-| Category                            | Description                                      |
-| ----------------------------------- | ------------------------------------------------ |
-| [Getting Started](#getting-started) | Prerequisites, local setup, environment config   |
-| [API Reference](#api-reference)     | Endpoint docs, standards, versioning, changelog  |
-| [Architecture](#architecture)       | System design, dependency graph, performance     |
-| [Database](#database)               | Schema, migrations, indexes                      |
-| [Blockchain](#blockchain)           | Stellar integration, anchor, SEP-0010 auth       |
-| [Caching](#caching)                 | Redis/Upstash strategy, invalidation, monitoring |
-| [Queues](#queues)                   | Bull queue implementation                        |
-| [Deployment](#deployment)           | Production setup, Docker, CI/CD                  |
-| [Security](#security)               | Encryption, threat model, compliance             |
-| [Integrations](#integrations)       | Third-party services                             |
-| [Community](#community)             | Contributing, code of conduct, team policies     |
+| Category | Description |
+|---|---|
+| [Getting Started](#getting-started) | Prerequisites, local setup, environment config |
+| [API Reference](#api-reference) | Endpoint docs, standards, versioning, changelog |
+| [Architecture](#architecture) | System design, dependency graph, performance |
+| [Database](#database) | Schema, migrations, indexes |
+| [Blockchain](#blockchain) | Stellar integration, anchor, SEP-0010 auth |
+| [Caching](#caching) | Redis/Upstash strategy, invalidation, monitoring |
+| [Queues](#queues) | Bull queue implementation |
+| [Deployment](#deployment) | Production setup, Docker, CI/CD |
+| [Security](#security) | Encryption, threat model, compliance |
+| [Integrations](#integrations) | Third-party services |
+| [Support](#support) | Support procedures, SLAs, maintenance schedules |
+| [Community](#community) | Contributing, code of conduct, team policies |
 
 ---
 
@@ -56,18 +57,20 @@ The API will be available at `http://localhost:5000/api` and Swagger UI at `http
 
 ## API Reference
 
-| Document                                                        | Summary                                          |
-| --------------------------------------------------------------- | ------------------------------------------------ |
-| [API Overview](./api/api-documentation.md)                      | Base URL, auth, all endpoint groups              |
-| [API Standards](./api/API-STANDARDS.md)                         | Annotation conventions, request/response formats |
-| [Authentication Guide](./api/AUTHENTICATION.md)                 | JWT flow, SEP-0010, refresh tokens               |
-| [Error Codes](./api/ERROR-CODES.md)                             | All error codes, HTTP status mapping, examples   |
-| [Rate Limiting](./api/RATE-LIMITING.md)                         | Limits, quotas, headers, retry guidance          |
-| [Pagination](./api/PAGINATION.md)                               | Cursor and offset pagination standards           |
-| [API Versioning](./api/API-VERSIONING.md)                       | URI versioning strategy and deprecation policy   |
-| [API Changelog](./api/API-CHANGELOG.md)                         | History of breaking and non-breaking changes     |
-| [SDK Generation](./api/SDK-GENERATION.md)                       | Auto-generate client SDKs from OpenAPI spec      |
-| [Webhook Verification](./api/WEBHOOK_SIGNATURE_VERIFICATION.md) | Validate incoming webhook payloads               |
+| Document | Summary |
+|---|---|
+| [API Overview](./api/api-documentation.md) | Base URL, auth, all endpoint groups |
+| [API Standards](./api/API-STANDARDS.md) | Annotation conventions, request/response formats |
+| [Documentation Standards](./DOCUMENTATION-STANDARDS.md) | README, code comments, API docs, architecture standards |
+| [Authentication Guide](./api/AUTHENTICATION.md) | JWT flow, SEP-0010, refresh tokens |
+| [Error Codes](./api/ERROR-CODES.md) | All error codes, HTTP status mapping, examples |
+| [Rate Limiting](./api/RATE-LIMITING.md) | Limits, quotas, headers, retry guidance |
+| [Pagination](./api/PAGINATION.md) | Cursor and offset pagination standards |
+| [API Versioning](./api/API-VERSIONING.md) | URI versioning strategy and deprecation policy |
+| [API Changelog](./api/API-CHANGELOG.md) | History of breaking and non-breaking changes |
+| [SDK Generation](./api/SDK-GENERATION.md) | Auto-generate client SDKs from OpenAPI spec |
+| [Webhook Verification](./api/WEBHOOK_SIGNATURE_VERIFICATION.md) | Validate incoming webhook payloads |
+| [Webhook Management](./api/WEBHOOK-MANAGEMENT.md) | Webhook registration, events, payloads, retries, security |
 
 **Swagger UI** is served at `/api/docs` and is auto-generated from NestJS `@ApiProperty` / `@ApiOperation` decorators — it always reflects the current codebase.
 
@@ -108,9 +111,10 @@ pnpm run migration:generate  # generate migration from entity changes
 
 ## Blockchain
 
-| Document                                                             | Summary                              |
-| -------------------------------------------------------------------- | ------------------------------------ |
-| [Stellar Auth (SEP-0010)](./blockchain/stellar-auth.md)              | Wallet-based authentication flow     |
+| Document | Summary |
+|---|---|
+| [Blockchain Integration Guide](./blockchain/BLOCKCHAIN-INTEGRATION-GUIDE.md) | SDK usage, accounts, transactions, wallets, security |
+| [Stellar Auth (SEP-0010)](./blockchain/stellar-auth.md) | Wallet-based authentication flow |
 | [Anchor Integration Guide](./blockchain/anchor-integration-guide.md) | Fiat on/off-ramp via Stellar anchors |
 | [Anchor Implementation](./blockchain/ANCHOR_IMPLEMENTATION.md)       | Internal implementation notes        |
 | [Anchor Integration](./blockchain/anchor-integration.md)             | Additional anchor setup details      |
