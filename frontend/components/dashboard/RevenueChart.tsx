@@ -25,8 +25,8 @@ const RevenueChart = () => {
   ];
 
   const formatValue = (value: number | undefined) => {
-    if (value === undefined) return '₦0M';
-    return `₦${value}M`;
+    if (value === undefined) return '$0M USDC';
+    return `$${value}M USDC`;
   };
 
   return (
@@ -101,8 +101,8 @@ const RevenueChart = () => {
               }}
               cursor={{ stroke: 'rgba(59, 130, 246, 0.5)', strokeWidth: 2 }}
               formatter={(value) => {
-                if (value === undefined) return ['₦0M', 'Revenue'];
-                return [`₦${value}M`, 'Revenue'];
+                if (value === undefined) return ['$0M USDC', 'Revenue'];
+                return [`$${value}M USDC`, 'Revenue'];
               }}
             />
             <Line

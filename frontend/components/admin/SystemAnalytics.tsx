@@ -776,11 +776,11 @@ function formatDate(value: Date) {
 }
 
 function currency(value: number) {
-  return new Intl.NumberFormat('en-NG', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'NGN',
+    currency: 'USD',
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(value) + ' USDC';
 }
 
 function number(value: number) {

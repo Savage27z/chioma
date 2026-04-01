@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
-import { Inter } from 'next/font/google';
+import '@fontsource-variable/inter';
 
 export const viewport: Viewport = {
   themeColor: '#1d4ed8',
@@ -13,11 +13,7 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-sans',
-});
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -40,14 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
 

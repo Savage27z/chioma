@@ -1,5 +1,5 @@
-import MaintenanceFlow from '@/components/maintenance/MaintenanceFlow';
+import { redirect } from 'next/navigation';
 
-export default function TenantMaintenancePage() {
-  return <MaintenanceFlow defaultRole="tenant" />;
+export default function DashboardMaintenancePage() {
+  redirect('/tenant/maintenance');
 }

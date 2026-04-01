@@ -63,7 +63,7 @@ export default function TenantDashboardLayout({
               </button>
 
               <NotificationBell
-                viewAllHref="/dashboard/notifications"
+                viewAllHref="/tenant/notifications"
                 size={20}
                 className="text-blue-200"
               />

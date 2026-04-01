@@ -45,7 +45,7 @@ async function getProperty(id: string): Promise<PropertyData | null> {
       title: 'Luxury 2-Bed Apartment',
       description:
         'Experience premium living in this beautifully designed luxury apartment. Featuring modern architecture, high-end finishing, and breathtaking views of the city skyline. Perfectly suited for professionals and small families seeking comfort and elegance in the heart of Victoria Island.',
-      price: '₦2,500,000',
+      price: '$2,500,000 USDC',
       location: '101 Adeola Odeku St, Victoria Island, Lagos',
       status: 'AVAILABLE',
       images: [
@@ -122,7 +122,7 @@ async function getProperty(id: string): Promise<PropertyData | null> {
       title: 'Modern Loft in Lekki',
       description:
         'A spacious and modern loft located in a serene environment. It offers an open floor plan, large windows allowing natural light, and top-tier security. Ideal for singles or couples looking for a chic urban sanctuary.',
-      price: '₦3,800,000',
+      price: '$3,800,000 USDC',
       location: 'Block 4, Admiralty Way, Lekki Phase 1',
       status: 'RENTED',
       images: [
@@ -155,7 +155,7 @@ async function getProperty(id: string): Promise<PropertyData | null> {
       title: 'Serviced Studio Flat',
       description:
         'A cozy and efficiently designed studio apartment perfect for individuals. Located in the prestigious Ikoyi area with easy access to business districts and entertainment centers. Fully serviced with weekly cleaning and maintenance.',
-      price: '₦1,500,000',
+      price: '$1,500,000 USDC',
       location: 'Glover Road, Ikoyi, Lagos',
       status: 'AVAILABLE',
       images: [
@@ -190,7 +190,7 @@ async function getProperty(id: string): Promise<PropertyData | null> {
       title: 'Exquisite 4-Bed Duplex',
       description:
         'A magnificent duplex offering luxury living at its finest. Situated in the exclusive Banana Island, this property features spacious rooms, modern amenities, and unparalleled security. Perfect for families seeking the ultimate living experience.',
-      price: '₦15,000,000',
+      price: '$15,000,000 USDC',
       location: 'Banana Island, Ikoyi',
       status: 'AVAILABLE',
       images: [
@@ -229,7 +229,7 @@ async function getProperty(id: string): Promise<PropertyData | null> {
       title: 'Cozy 1-Bed Apartment',
       description:
         'A comfortable and affordable one-bedroom apartment in the heart of Yaba. Close to major universities and tech hubs, making it ideal for students and young professionals. The area offers vibrant nightlife and easy access to public transportation.',
-      price: '₦800,000',
+      price: '$800,000 USDC',
       location: 'Yaba, Mainland, Lagos',
       status: 'AVAILABLE',
       images: [
@@ -263,7 +263,7 @@ async function getProperty(id: string): Promise<PropertyData | null> {
       title: 'Penthouse with Sea View',
       description:
         'An exclusive penthouse offering breathtaking sea views and luxury living. Located in the prestigious Eko Atlantic City, this property features modern architecture, high-end finishes, and access to private beaches. Perfect for those who desire the ultimate coastal living experience.',
-      price: '₦8,500,000',
+      price: '$8,500,000 USDC',
       location: 'Eko Atlantic City, Lagos',
       status: 'AVAILABLE',
       images: [

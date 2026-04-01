@@ -138,7 +138,7 @@ const tenantPaymentsMock: DashboardPayment[] = [
     propertyName: 'Sunset Apartments, Unit 4B',
     counterpartyName: 'James Adebayo',
     amount: 150000,
-    currency: 'NGN',
+    currency: 'USDC',
     paymentDate: '2026-03-01T09:15:00.000Z',
     paymentMethod: 'Stellar Transfer',
     status: 'COMPLETED',
@@ -153,7 +153,7 @@ const tenantPaymentsMock: DashboardPayment[] = [
     propertyName: 'Sunset Apartments, Unit 4B',
     counterpartyName: 'James Adebayo',
     amount: 150000,
-    currency: 'NGN',
+    currency: 'USDC',
     paymentDate: '2026-02-01T09:12:00.000Z',
     paymentMethod: 'Stellar Transfer',
     status: 'COMPLETED',
@@ -168,7 +168,7 @@ const tenantPaymentsMock: DashboardPayment[] = [
     propertyName: 'Sunset Apartments, Unit 4B',
     counterpartyName: 'James Adebayo',
     amount: 25000,
-    currency: 'NGN',
+    currency: 'USDC',
     paymentDate: '2026-01-28T11:45:00.000Z',
     paymentMethod: 'Refund',
     status: 'REFUNDED',
@@ -500,7 +500,7 @@ function mapPaymentRecord(
         direction === 'outgoing' ? agreement.landlord : agreement.tenant,
       ) ?? 'Counterparty',
     amount: payment.amount ?? agreement.monthlyRent ?? 0,
-    currency: payment.currency ?? 'NGN',
+    currency: payment.currency ?? 'USDC',
     paymentDate:
       payment.paymentDate ??
       payment.paidAt ??

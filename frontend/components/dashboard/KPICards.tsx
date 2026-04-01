@@ -8,7 +8,7 @@ const KPICards = () => {
     {
       label: 'Total Revenue',
       sublabel: '(YTD)',
-      value: '₦45.2M',
+      value: '$45.2M USDC',
       change: '+12%',
       changeLabel: 'vs last month',
       isPositive: true,

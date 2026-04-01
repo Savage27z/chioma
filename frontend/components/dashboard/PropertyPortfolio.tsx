@@ -20,7 +20,7 @@ const PropertyPortfolio = () => {
           'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
       },
       contractValue: 2.5,
-      currency: '₦',
+      currency: '$',
       period: 'yr',
       leaseEnds: new Date('2024-11-30'),
     },
@@ -32,7 +32,7 @@ const PropertyPortfolio = () => {
         'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop',
       status: 'vacant',
       contractValue: 3.8,
-      currency: '₦',
+      currency: '$',
       period: 'yr',
     },
     {
@@ -43,7 +43,7 @@ const PropertyPortfolio = () => {
         'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop',
       status: 'maintenance',
       contractValue: 1.8,
-      currency: '₦',
+      currency: '$',
       period: 'yr',
     },
   ];

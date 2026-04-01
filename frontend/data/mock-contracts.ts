@@ -20,8 +20,8 @@ export const mockContracts: Contract[] = [
       walletAddress: 'GDQF...3B8C',
       role: 'AGENT',
     },
-    rentAmount: '₦1,200,000',
-    securityDeposit: '₦600,000',
+    rentAmount: '$1,200,000 USDC',
+    securityDeposit: '$600,000 USDC',
     commissionRate: '10%',
     startDate: '2024-06-01',
     endDate: '2025-05-31',
@@ -41,9 +41,9 @@ PROPERTY: Sunrise Apartments - Unit 4B, 12 Victoria Island Rd, Lagos, Nigeria
 
 1. TERM: The lease term shall commence on June 1, 2024 and terminate on May 31, 2025.
 
-2. RENT: Tenant agrees to pay ₦1,200,000 per annum, payable via Stellar network in monthly installments of ₦100,000.
+2. RENT: Tenant agrees to pay $1,200,000 USDC per annum, payable via Stellar network in monthly installments of $100,000 USDC.
 
-3. SECURITY DEPOSIT: A security deposit of ₦600,000 shall be held in escrow via Stellar multi-signature transaction. The deposit shall be released within 30 days of lease termination, subject to property inspection.
+3. SECURITY DEPOSIT: A security deposit of $600,000 USDC shall be held in escrow via Stellar multi-signature transaction. The deposit shall be released within 30 days of lease termination, subject to property inspection.
 
 4. AGENT COMMISSION: The agent shall receive a commission of 10% of the annual rent, distributed automatically via smart contract upon successful lease execution.
 
@@ -70,8 +70,8 @@ PROPERTY: Sunrise Apartments - Unit 4B, 12 Victoria Island Rd, Lagos, Nigeria
       walletAddress: 'GDQF...3B8C',
       role: 'AGENT',
     },
-    rentAmount: '₦2,400,000',
-    securityDeposit: '₦1,200,000',
+    rentAmount: '$2,400,000 USDC',
+    securityDeposit: '$1,200,000 USDC',
     commissionRate: '8%',
     startDate: '2024-09-01',
     endDate: '2025-08-31',
@@ -91,9 +91,9 @@ PROPERTY: Ocean View Terrace - Suite 12, 45 Admiralty Way, Lekki Phase 1, Lagos
 
 1. TERM: The lease term shall commence on September 1, 2024 and terminate on August 31, 2025.
 
-2. RENT: Tenant agrees to pay ₦2,400,000 per annum, payable via Stellar network in monthly installments of ₦200,000.
+2. RENT: Tenant agrees to pay $2,400,000 USDC per annum, payable via Stellar network in monthly installments of $200,000 USDC.
 
-3. SECURITY DEPOSIT: A security deposit of ₦1,200,000 shall be held in escrow via Stellar multi-signature transaction.
+3. SECURITY DEPOSIT: A security deposit of $1,200,000 USDC shall be held in escrow via Stellar multi-signature transaction.
 
 4. AGENT COMMISSION: The agent shall receive a commission of 8% of the annual rent.
 
@@ -118,8 +118,8 @@ PROPERTY: Ocean View Terrace - Suite 12, 45 Admiralty Way, Lekki Phase 1, Lagos
       walletAddress: 'GDQF...3B8C',
       role: 'AGENT',
     },
-    rentAmount: '₦800,000',
-    securityDeposit: '₦400,000',
+    rentAmount: '$800,000 USDC',
+    securityDeposit: '$400,000 USDC',
     commissionRate: '10%',
     startDate: '2024-01-01',
     endDate: '2024-12-31',
@@ -139,9 +139,9 @@ PROPERTY: Green Estate Villa - Block C, 8 Green Estate, Amuwo Odofin, Lagos
 
 1. TERM: The lease term shall commence on January 1, 2024 and terminate on December 31, 2024.
 
-2. RENT: Tenant agrees to pay ₦800,000 per annum, payable via Stellar network.
+2. RENT: Tenant agrees to pay $800,000 USDC per annum, payable via Stellar network.
 
-3. SECURITY DEPOSIT: A security deposit of ₦400,000 shall be held in escrow.
+3. SECURITY DEPOSIT: A security deposit of $400,000 USDC shall be held in escrow.
 
 4. AGENT COMMISSION: The agent shall receive a commission of 10% of the annual rent.`,
   },
@@ -164,8 +164,8 @@ PROPERTY: Green Estate Villa - Block C, 8 Green Estate, Amuwo Odofin, Lagos
       walletAddress: 'GDQF...3B8C',
       role: 'AGENT',
     },
-    rentAmount: '₦5,000,000',
-    securityDeposit: '₦2,500,000',
+    rentAmount: '$5,000,000 USDC',
+    securityDeposit: '$2,500,000 USDC',
     commissionRate: '7%',
     startDate: '2025-01-01',
     endDate: '2025-12-31',
@@ -185,9 +185,9 @@ PROPERTY: Skyline Towers - Penthouse 2A, 101 Ozumba Mbadiwe Ave, Victoria Island
 
 1. TERM: The lease term shall commence on January 1, 2025 and terminate on December 31, 2025.
 
-2. RENT: Tenant agrees to pay ₦5,000,000 per annum, payable via Stellar network in monthly installments of ₦416,667.
+2. RENT: Tenant agrees to pay $5,000,000 USDC per annum, payable via Stellar network in monthly installments of $416,667 USDC.
 
-3. SECURITY DEPOSIT: A security deposit of ₦2,500,000 shall be held in escrow via Stellar multi-signature transaction.
+3. SECURITY DEPOSIT: A security deposit of $2,500,000 USDC shall be held in escrow via Stellar multi-signature transaction.
 
 4. AGENT COMMISSION: The agent shall receive a commission of 7% of the annual rent.
 
@@ -212,8 +212,8 @@ PROPERTY: Skyline Towers - Penthouse 2A, 101 Ozumba Mbadiwe Ave, Victoria Island
       walletAddress: 'GDQF...3B8C',
       role: 'AGENT',
     },
-    rentAmount: '₦1,800,000',
-    securityDeposit: '₦900,000',
+    rentAmount: '$1,800,000 USDC',
+    securityDeposit: '$900,000 USDC',
     commissionRate: '10%',
     startDate: '2024-10-01',
     endDate: '2025-09-30',
@@ -233,9 +233,9 @@ PROPERTY: Palm Heights - Flat 3C, 23 Adeola Odeku St, Victoria Island, Lagos
 
 1. TERM: The lease term shall commence on October 1, 2024 and terminate on September 30, 2025.
 
-2. RENT: Tenant agrees to pay ₦1,800,000 per annum, payable via Stellar network in monthly installments of ₦150,000.
+2. RENT: Tenant agrees to pay $1,800,000 USDC per annum, payable via Stellar network in monthly installments of $150,000 USDC.
 
-3. SECURITY DEPOSIT: A security deposit of ₦900,000 shall be held in escrow via Stellar multi-signature transaction.
+3. SECURITY DEPOSIT: A security deposit of $900,000 USDC shall be held in escrow via Stellar multi-signature transaction.
 
 4. AGENT COMMISSION: The agent shall receive a commission of 10% of the annual rent.
 

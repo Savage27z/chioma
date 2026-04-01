@@ -42,7 +42,7 @@ const RecentActivity = ({
       id: 3,
       type: 'payment',
       title: 'Rent Payment - Unit 101',
-      description: 'Received ₦2.5M via Stellar',
+      description: 'Received $2.5M USDC via Stellar',
       timestamp: new Date(MOCK_NOW.getTime() - 24 * 60 * 60 * 1000),
       status: 'received',
       icon: CreditCard,

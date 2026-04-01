@@ -3,25 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import {
-  User,
-  Mail,
-  Phone,
-  Wallet,
-  Copy,
-  CheckCircle2,
-  ShieldCheck,
-  AlertCircle,
-  ExternalLink,
-  Camera,
-  Lock,
-  ChevronRight,
+  User, Mail, Phone, Wallet, Copy, CheckCircle2, ShieldCheck,
+  AlertCircle, ExternalLink, Camera, Lock, ChevronRight,
 } from 'lucide-react';
 import { useAuth } from '@/store/authStore';
 import { getFreighterPublicKey } from '@/lib/stellar-auth';
 import { Uploader } from '@/components/ui/Uploader';
 import { toast } from 'react-hot-toast';
 
-// --- Types ---
 interface UserProfile {
   fullName: string;
   email: string;
@@ -37,10 +26,9 @@ interface KycStatus {
   progress: number;
 }
 
-export default function ProfilePage() {
+export default function TenantProfilePage() {
   const { user, accessToken } = useAuth();
 
-  // State for profile data
   const [profile, setProfile] = useState<UserProfile>({
     fullName: `${user?.firstName || ''} ${user?.lastName || ''}`.trim(),
     email: user?.email || '',
@@ -50,88 +38,41 @@ export default function ProfilePage() {
     walletAddress: null,
   });
 
-  // State for KYC status
-  const [kyc, setKyc] = useState<KycStatus>({
-    level: 'Unverified',
-    status: 'none',
-    progress: 0,
-  });
-
+  const [kyc, setKyc] = useState<KycStatus>({ level: 'Unverified', status: 'none', progress: 0 });
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isConnectingWallet, setIsConnectingWallet] = useState(false);
 
-  // Fetch initial data
   useEffect(() => {
     const fetchData = async () => {
-      if (!accessToken) return;
-
+      if (!accessToken) { setIsLoading(false); return; }
       try {
         setIsLoading(true);
-
-        // Fetch Profile
-        const profileRes = await fetch('/api/profile', {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        if (profileRes.ok) {
-          const data = await profileRes.json();
-          setProfile((prev) => ({ ...prev, ...data }));
-        }
-
-        // Fetch KYC
-        const kycRes = await fetch('/api/stellar/kyc', {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        if (kycRes.ok) {
-          const data = await kycRes.json();
-          setKyc(data);
-        } else {
-          // Mock data for demonstration if API fails
-          setKyc({
-            level: 'Basic',
-            status: 'verified',
-            progress: 33,
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching profile data:', error);
-      } finally {
-        setIsLoading(false);
-      }
+        const profileRes = await fetch('/api/profile', { headers: { Authorization: `Bearer ${accessToken}` } });
+        if (profileRes.ok) { const data = await profileRes.json(); setProfile((prev) => ({ ...prev, ...data })); }
+        const kycRes = await fetch('/api/stellar/kyc', { headers: { Authorization: `Bearer ${accessToken}` } });
+        if (kycRes.ok) { const data = await kycRes.json(); setKyc(data); }
+        else { setKyc({ level: 'Basic', status: 'verified', progress: 33 }); }
+      } catch (error) { console.error('Error fetching profile data:', error); }
+      finally { setIsLoading(false); }
     };
-
     fetchData();
   }, [accessToken, user]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsUpdating(true);
-
     try {
       const res = await fetch('/api/profile', {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          fullName: profile.fullName,
-          phone: profile.phone,
-        }),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
+        body: JSON.stringify({ fullName: profile.fullName, phone: profile.phone }),
       });
-
-      if (res.ok) {
-        toast.success('Profile updated successfully');
-        setIsEditing(false);
-      } else {
-        throw new Error('Failed to update profile');
-      }
-    } catch {
-      toast.error('Update failed. Please try again.');
-    } finally {
-      setIsUpdating(false);
-    }
+      if (res.ok) { toast.success('Profile updated successfully'); setIsEditing(false); }
+      else throw new Error('Failed to update profile');
+    } catch { toast.error('Update failed. Please try again.'); }
+    finally { setIsUpdating(false); }
   };
 
   const handleConnectWallet = async () => {
@@ -141,159 +82,107 @@ export default function ProfilePage() {
       setProfile((prev) => ({ ...prev, walletAddress: publicKey }));
       toast.success('Wallet connected: ' + maskAddress(publicKey));
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : 'Failed to connect wallet';
-      toast.error(message);
-    } finally {
-      setIsConnectingWallet(false);
-    }
+      toast.error(error instanceof Error ? error.message : 'Failed to connect wallet');
+    } finally { setIsConnectingWallet(false); }
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success('Copied to clipboard');
-  };
-
-  const maskAddress = (address: string) => {
-    if (!address) return '';
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
+  const copyToClipboard = (text: string) => { navigator.clipboard.writeText(text); toast.success('Copied to clipboard'); };
+  const maskAddress = (address: string) => address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
 
   const getKycBadge = () => {
     switch (kyc.level) {
-      case 'Full':
-        return (
-          <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold border border-green-200">
-            Full Verified
-          </span>
-        );
-      case 'Basic':
-        return (
-          <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold border border-blue-200">
-            Basic Verification
-          </span>
-        );
-      default:
-        return (
-          <span className="px-3 py-1 rounded-full bg-neutral-100 text-neutral-600 text-xs font-bold border border-neutral-200">
-            Unverified
-          </span>
-        );
+      case 'Full': return <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">Full Verified</span>;
+      case 'Basic': return <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold border border-blue-500/20">Basic Verification</span>;
+      default: return <span className="px-3 py-1 rounded-full bg-white/5 text-blue-200/40 text-xs font-bold border border-white/10">Unverified</span>;
     }
   };
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
-      {/* Header Section */}
+      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">
-            User Profile
-          </h1>
-          <p className="text-neutral-500 mt-1">
-            Manage your account details and verification status.
-          </p>
+          <h1 className="text-3xl font-black text-white tracking-tight">User Profile</h1>
+          <p className="text-blue-200/50 mt-1">Manage your account details and verification status.</p>
         </div>
         <div className="flex items-center space-x-3">
           {getKycBadge()}
           {kyc.level !== 'Full' && (
-            <button className="text-sm font-semibold text-brand-blue hover:underline flex items-center">
+            <button className="text-sm font-semibold text-blue-400 hover:text-blue-300 flex items-center transition-colors">
               Learn about KYC <ExternalLink size={14} className="ml-1" />
             </button>
           )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Profile Summary */}
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm flex flex-col items-center text-center">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column */}
+        <div className="lg:col-span-1 space-y-4">
+          {/* Avatar Card */}
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center">
             <div className="relative group">
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-neutral-100 border-4 border-white shadow-md relative">
+              <div className="w-28 h-28 rounded-full overflow-hidden bg-white/5 border-4 border-white/10 shadow-xl relative">
                 {profile.profilePicture ? (
-                  <Image
-                    src={profile.profilePicture}
-                    alt="Profile"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={profile.profilePicture} alt="Profile" fill className="object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                    <User size={64} />
+                  <div className="w-full h-full flex items-center justify-center text-blue-300/20">
+                    <User size={56} />
                   </div>
                 )}
               </div>
-              <button className="absolute bottom-0 right-0 p-2 bg-brand-blue text-white rounded-full shadow-lg hover:scale-110 transition-transform">
-                <Camera size={18} />
+              <button className="absolute bottom-0 right-0 p-2 bg-blue-600 text-white rounded-full shadow-lg hover:scale-110 transition-transform">
+                <Camera size={16} />
               </button>
             </div>
-
-            <h2 className="mt-4 text-xl font-bold text-neutral-900">
-              {profile.fullName || 'User Name'}
-            </h2>
-            <p className="text-neutral-500 text-sm">{profile.email}</p>
-
-            <div className="w-full mt-6 pt-6 border-t border-neutral-100 space-y-4">
+            <h2 className="mt-4 text-xl font-bold text-white">{profile.fullName || 'User Name'}</h2>
+            <p className="text-blue-200/50 text-sm">{profile.email}</p>
+            <div className="w-full mt-5 pt-5 border-t border-white/5 space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-neutral-500">Member since</span>
-                <span className="font-medium text-neutral-900">Jan 2024</span>
+                <span className="text-blue-200/40">Member since</span>
+                <span className="font-medium text-white">Jan 2024</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-neutral-500">Account Type</span>
-                <span className="font-medium capitalize text-neutral-900">
-                  {user?.role || 'Tenant'}
-                </span>
+                <span className="text-blue-200/40">Account Type</span>
+                <span className="font-medium capitalize text-white">{user?.role || 'Tenant'}</span>
               </div>
             </div>
           </div>
 
-          {/* Wallet Status Card */}
-          <div className="bg-neutral-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-4 opacity-10">
-              <Wallet size={80} />
-            </div>
-
+          {/* Wallet Card */}
+          <div className="bg-gradient-to-br from-slate-900 to-blue-950 border border-white/10 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-5"><Wallet size={80} /></div>
             <div className="relative z-10 space-y-4">
               <div className="flex items-center space-x-2">
-                <Wallet size={20} className="text-brand-blue" />
-                <h3 className="font-bold">Stellar Wallet</h3>
+                <Wallet size={18} className="text-blue-400" />
+                <h3 className="font-bold text-sm">Stellar Wallet</h3>
               </div>
-
               {profile.walletAddress ? (
-                <div className="space-y-4">
-                  <div className="bg-white/10 rounded-xl p-3 border border-white/10 flex items-center justify-between">
-                    <span className="font-mono text-xs opacity-80">
-                      {maskAddress(profile.walletAddress)}
-                    </span>
-                    <button
-                      onClick={() => copyToClipboard(profile.walletAddress!)}
-                      className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-                    >
-                      <Copy size={14} />
+                <div className="space-y-3">
+                  <div className="bg-white/5 rounded-xl p-3 border border-white/10 flex items-center justify-between">
+                    <span className="font-mono text-xs text-blue-200/60">{maskAddress(profile.walletAddress)}</span>
+                    <button onClick={() => copyToClipboard(profile.walletAddress!)} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
+                      <Copy size={13} />
                     </button>
                   </div>
-                  <button className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-colors flex items-center justify-center">
+                  <button className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-sm font-semibold transition-colors">
                     Disconnect Wallet
                   </button>
                 </div>
               ) : (
-                <div className="space-y-4 text-center py-2">
-                  <p className="text-xs text-neutral-400">
-                    Connect your wallet to enable blockchain payments and asset
-                    management.
-                  </p>
+                <div className="space-y-3 text-center py-1">
+                  <p className="text-xs text-blue-200/40">Connect your wallet to enable blockchain payments.</p>
                   <button
                     onClick={handleConnectWallet}
                     disabled={isConnectingWallet}
-                    className="w-full py-2.5 rounded-xl bg-brand-blue hover:bg-brand-blue-dark text-white text-sm font-bold transition-all shadow-lg active:scale-95 disabled:opacity-60"
+                    className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg active:scale-95 disabled:opacity-60"
                   >
                     {isConnectingWallet ? 'Connecting...' : 'Connect Wallet'}
                   </button>
@@ -303,104 +192,57 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Right Column - Profile Details & KYC */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Right Column */}
+        <div className="lg:col-span-2 space-y-4">
           {/* Profile Form */}
-          <section className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm overflow-hidden">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-neutral-900">
-                Personal Information
-              </h3>
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark transition-colors"
-              >
+          <section className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-lg font-bold text-white">Personal Information</h3>
+              <button onClick={() => setIsEditing(!isEditing)} className="text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors">
                 {isEditing ? 'Cancel' : 'Edit Profile'}
               </button>
             </div>
-
-            <form onSubmit={handleUpdateProfile} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-neutral-700">
-                    Full Name
-                  </label>
-                  <div className="relative">
-                    <User
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                      size={18}
-                    />
-                    <input
-                      type="text"
-                      disabled={!isEditing}
-                      value={profile.fullName}
-                      onChange={(e) =>
-                        setProfile((prev) => ({
-                          ...prev,
-                          fullName: e.target.value,
-                        }))
-                      }
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue outline-none transition-all disabled:opacity-70"
-                    />
+            <form onSubmit={handleUpdateProfile} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  { label: 'Full Name', icon: User, type: 'text', value: profile.fullName, onChange: (v: string) => setProfile((p) => ({ ...p, fullName: v })), disabled: !isEditing },
+                  { label: 'Phone Number', icon: Phone, type: 'tel', value: profile.phone, onChange: (v: string) => setProfile((p) => ({ ...p, phone: v })), disabled: !isEditing, placeholder: '+234 000 000 0000' },
+                ].map(({ label, icon: Icon, type, value, onChange, disabled, placeholder }) => (
+                  <div key={label} className="space-y-1.5">
+                    <label className="text-xs font-bold text-blue-200/50 uppercase tracking-wider">{label}</label>
+                    <div className="relative">
+                      <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-300/30" size={16} />
+                      <input
+                        type={type}
+                        disabled={disabled}
+                        value={value}
+                        placeholder={placeholder}
+                        onChange={(e) => onChange(e.target.value)}
+                        className="w-full pl-9 pr-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-blue-300/20 focus:bg-white/10 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/40 outline-none transition-all disabled:opacity-50 text-sm"
+                      />
+                    </div>
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-neutral-700">
-                    Email Address
-                  </label>
+                ))}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-blue-200/50 uppercase tracking-wider">Email Address</label>
                   <div className="relative">
-                    <Mail
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                      size={18}
-                    />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-300/30" size={16} />
                     <input
                       type="email"
                       readOnly
                       value={profile.email}
-                      className="w-full pl-10 pr-12 py-3 rounded-xl border border-neutral-200 bg-neutral-100 text-neutral-500 outline-none transition-all cursor-not-allowed"
+                      className="w-full pl-9 pr-10 py-3 rounded-xl border border-white/10 bg-white/5 text-blue-200/40 outline-none cursor-not-allowed text-sm"
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 group">
-                      <Lock size={16} className="text-neutral-400" />
-                      <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-neutral-800 text-white text-[10px] rounded disappear group-hover:block hidden">
-                        Email cannot be changed once verified.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-neutral-700">
-                    Phone Number
-                  </label>
-                  <div className="relative">
-                    <Phone
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
-                      size={18}
-                    />
-                    <input
-                      type="tel"
-                      disabled={!isEditing}
-                      placeholder="+234 000 000 0000"
-                      value={profile.phone}
-                      onChange={(e) =>
-                        setProfile((prev) => ({
-                          ...prev,
-                          phone: e.target.value,
-                        }))
-                      }
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue outline-none transition-all disabled:opacity-70"
-                    />
+                    <Lock size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-300/20" />
                   </div>
                 </div>
               </div>
-
               {isEditing && (
-                <div className="flex justify-end pt-4">
+                <div className="flex justify-end pt-2">
                   <button
                     type="submit"
                     disabled={isUpdating}
-                    className="px-6 py-2.5 bg-brand-blue text-white font-bold rounded-xl shadow-lg shadow-brand-blue/20 hover:bg-brand-blue-dark transition-all active:scale-95 disabled:opacity-60"
+                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all active:scale-95 disabled:opacity-60 text-sm"
                   >
                     {isUpdating ? 'Saving...' : 'Save Changes'}
                   </button>
@@ -409,133 +251,62 @@ export default function ProfilePage() {
             </form>
           </section>
 
-          {/* KYC Verification Section */}
-          <section className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm relative overflow-hidden">
-            <div className="flex items-center space-x-2 mb-2">
-              <ShieldCheck className="text-brand-blue" size={24} />
-              <h3 className="text-xl font-bold text-neutral-900">
-                Identity Verification
-              </h3>
+          {/* KYC Section */}
+          <section className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6">
+            <div className="flex items-center space-x-2 mb-1">
+              <ShieldCheck className="text-blue-400" size={20} />
+              <h3 className="text-lg font-bold text-white">Identity Verification</h3>
             </div>
-            <p className="text-neutral-500 text-sm mb-6">
-              Complete KYC to unlock full platform features and higher
-              transaction limits.
-            </p>
+            <p className="text-blue-200/40 text-sm mb-5">Complete KYC to unlock full platform features and higher transaction limits.</p>
 
-            {/* KYC Progress UI */}
-            <div className="mb-8 space-y-4">
-              <div className="flex items-center justify-between text-sm mb-1">
-                <span className="font-semibold text-neutral-700">
-                  Verification Progress
-                </span>
-                <span className="text-brand-blue font-bold">
-                  {kyc.progress}%
-                </span>
+            <div className="mb-6 space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-semibold text-blue-200/60">Verification Progress</span>
+                <span className="text-blue-400 font-bold">{kyc.progress}%</span>
               </div>
-              <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-blue-400 to-brand-blue transition-all duration-1000 ease-out"
-                  style={{ width: `${kyc.progress}%` }}
-                />
+              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-1000" style={{ width: `${kyc.progress}%` }} />
               </div>
-
-              <div className="grid grid-cols-3 gap-2 pt-2">
-                <div className="flex flex-col items-center space-y-1">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center ${kyc.progress >= 33 ? 'bg-brand-blue text-white' : 'bg-neutral-100 text-neutral-400'}`}
-                  >
-                    <CheckCircle2 size={16} />
+              <div className="grid grid-cols-3 gap-2 pt-1">
+                {[{ label: 'Unverified', threshold: 33 }, { label: 'Basic', threshold: 66 }, { label: 'Full', threshold: 100 }].map(({ label, threshold }, i) => (
+                  <div key={label} className="flex flex-col items-center space-y-1">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${kyc.progress >= threshold ? 'bg-blue-600 text-white' : 'bg-white/5 text-blue-300/30 border border-white/10'}`}>
+                      {kyc.progress >= threshold ? <CheckCircle2 size={14} /> : i + 1}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-200/30">{label}</span>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
-                    Unverified
-                  </span>
-                </div>
-                <div className="flex flex-col items-center space-y-1">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center ${kyc.progress >= 66 ? 'bg-brand-blue text-white' : 'bg-neutral-100 text-neutral-400'}`}
-                  >
-                    {kyc.progress >= 66 ? (
-                      <CheckCircle2 size={16} />
-                    ) : (
-                      <span className="text-xs font-bold">2</span>
-                    )}
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
-                    Basic
-                  </span>
-                </div>
-                <div className="flex flex-col items-center space-y-1">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center ${kyc.progress >= 100 ? 'bg-brand-blue text-white' : 'bg-neutral-100 text-neutral-400'}`}
-                  >
-                    {kyc.progress >= 100 ? (
-                      <CheckCircle2 size={16} />
-                    ) : (
-                      <span className="text-xs font-bold">3</span>
-                    )}
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
-                    Full
-                  </span>
-                </div>
+                ))}
               </div>
             </div>
 
             {kyc.level !== 'Full' ? (
-              <div className="bg-blue-50/50 rounded-2xl p-6 border border-blue-100 space-y-6">
+              <div className="bg-blue-500/5 rounded-2xl p-5 border border-blue-500/10 space-y-5">
                 <div className="flex items-start space-x-3">
-                  <AlertCircle
-                    className="text-brand-blue shrink-0 mt-0.5"
-                    size={20}
-                  />
+                  <AlertCircle className="text-blue-400 shrink-0 mt-0.5" size={18} />
                   <div>
-                    <h4 className="font-bold text-neutral-900 text-sm">
-                      Action Required
-                    </h4>
-                    <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
-                      To reach the{' '}
-                      <strong>
-                        {kyc.level === 'Unverified' ? 'Basic' : 'Full'}
-                      </strong>{' '}
-                      level, please upload a valid Government-issued ID and a
-                      proof of address.
+                    <h4 className="font-bold text-white text-sm">Action Required</h4>
+                    <p className="text-xs text-blue-200/40 mt-1 leading-relaxed">
+                      To reach <strong className="text-white">{kyc.level === 'Unverified' ? 'Basic' : 'Full'}</strong> level, upload a valid Government-issued ID and proof of address.
                     </p>
                   </div>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Uploader
-                    label="Government ID"
-                    description="Upload Passport or Driver License"
-                    onFilesSelected={(files) => console.log('ID Files:', files)}
-                  />
-                  <Uploader
-                    label="Proof of Address"
-                    description="Utility Bill or Bank Statement"
-                    onFilesSelected={(files) =>
-                      console.log('Address Files:', files)
-                    }
-                  />
+                  <Uploader label="Government ID" description="Upload Passport or Driver License" onFilesSelected={(files) => console.log('ID Files:', files)} />
+                  <Uploader label="Proof of Address" description="Utility Bill or Bank Statement" onFilesSelected={(files) => console.log('Address Files:', files)} />
                 </div>
-
-                <button className="w-full py-3.5 bg-brand-blue hover:bg-brand-blue-dark text-white font-bold rounded-2xl shadow-xl shadow-brand-blue/20 transition-all flex items-center justify-center space-x-2 active:scale-[0.98]">
+                <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all flex items-center justify-center space-x-2 active:scale-[0.98] text-sm">
                   <span>Submit for Verification</span>
-                  <ChevronRight size={18} />
+                  <ChevronRight size={16} />
                 </button>
               </div>
             ) : (
-              <div className="bg-green-50 rounded-2xl p-6 border border-green-100 flex items-center space-x-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                  <ShieldCheck size={28} />
+              <div className="bg-emerald-500/10 rounded-2xl p-5 border border-emerald-500/20 flex items-center space-x-4">
+                <div className="w-11 h-11 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
+                  <ShieldCheck size={24} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-neutral-900">
-                    Account Fully Verified
-                  </h4>
-                  <p className="text-xs text-green-700 mt-0.5">
-                    You have full access to all Chioma services and high
-                    transaction limits.
-                  </p>
+                  <h4 className="font-bold text-white">Account Fully Verified</h4>
+                  <p className="text-xs text-emerald-400/70 mt-0.5">You have full access to all Chioma services and high transaction limits.</p>
                 </div>
               </div>
             )}

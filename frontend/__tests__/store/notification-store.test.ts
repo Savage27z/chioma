@@ -45,7 +45,7 @@ const fakeNotification: Notification = {
   id: 'n-1',
   type: 'payment',
   title: 'Rent received',
-  body: 'Your tenant paid ₦150,000',
+  body: 'Your tenant paid $150,000 USDC',
   read: false,
   createdAt: new Date().toISOString(),
 };

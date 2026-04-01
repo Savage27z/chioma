@@ -204,11 +204,9 @@ export const DisputeDetailModal: React.FC<DisputeDetailModalProps> = ({
                   Requested Amount
                 </p>
                 <p className="text-sm font-bold text-neutral-900 dark:text-white">
-                  {new Intl.NumberFormat('en-NG', {
-                    style: 'currency',
-                    currency: 'NGN',
-                    maximumFractionDigits: 0,
-                  }).format(dispute.requestedAmount)}
+                  {`$${new Intl.NumberFormat('en-US', {
+                    maximumFractionDigits: 2,
+                  }).format(dispute.requestedAmount)} USDC`}
                 </p>
               </div>
             </div>

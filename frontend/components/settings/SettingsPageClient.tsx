@@ -34,7 +34,7 @@ const DEFAULT_PREFERENCES: UserPreferences = {
   },
   appearanceTheme: 'system',
   language: 'en',
-  currency: 'NGN',
+  currency: 'USDC',
 };
 
 const passwordSchema = z
@@ -68,9 +68,8 @@ const LANGUAGE_OPTIONS = [
 ];
 
 const CURRENCY_OPTIONS = [
-  { value: 'NGN', label: 'Nigerian Naira (NGN)' },
-  { value: 'USD', label: 'US Dollar (USD)' },
   { value: 'USDC', label: 'USD Coin (USDC)' },
+  { value: 'USD', label: 'US Dollar (USD)' },
 ];
 
 function applyTheme(theme: ThemePreference) {

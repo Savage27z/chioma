@@ -1,5 +1,5 @@
-import { NotificationsPage } from '@/components/notifications';
+import { redirect } from 'next/navigation';
 
-export default function TenantNotificationsPage() {
-  return <NotificationsPage />;
+export default function DashboardNotificationsPage() {
+  redirect('/tenant/notifications');
 }

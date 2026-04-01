@@ -129,7 +129,7 @@ export default function NewDisputePage() {
                 htmlFor="amount"
                 className="block text-sm font-medium text-neutral-700 mb-2"
               >
-                Requested Amount (₦)
+                Requested Amount ($)
               </label>
               <Input
                 id="amount"

@@ -208,7 +208,7 @@ const PAGE_SIZE_OPTIONS = [10, 20, 50];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const fmtAmount = (n: number) => `₦${(n / 1_000_000).toFixed(1)}M`;
+const fmtAmount = (n: number) => `$${(n / 1_000_000).toFixed(1)}M USDC`;
 
 const statusConfig: Record<
   LeaseStatus,

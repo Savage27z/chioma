@@ -142,10 +142,10 @@ const transactions: Transaction[] = [
 
 const fmt = (n: number): string =>
   n >= 1_000_000
-    ? `₦${(n / 1_000_000).toFixed(1)}M`
-    : `₦${(n / 1_000).toFixed(0)}K`;
+    ? `$${(n / 1_000_000).toFixed(1)}M USDC`
+    : `$${(n / 1_000).toFixed(0)}K USDC`;
 
-const fmtFull = (n: number): string => `₦${n.toLocaleString()}`;
+const fmtFull = (n: number): string => `$${n.toLocaleString()} USDC`;
 
 // ─── Custom Tooltip ───────────────────────────────────────────────────────────
 
