@@ -22,15 +22,22 @@ export default function PropertyUpdatesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight mb-1">Updates & Maintenance</h1>
-          <p className="text-blue-200/50">Stay informed with announcements and manage your maintenance requests.</p>
+          <h1 className="text-3xl font-black text-white tracking-tight mb-1">
+            Updates & Maintenance
+          </h1>
+          <p className="text-blue-200/50">
+            Stay informed with announcements and manage your maintenance
+            requests.
+          </p>
         </div>
         {/* View Mode Toggle */}
         <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-xl p-1">
           <button
             onClick={() => setViewMode('combined')}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              viewMode === 'combined' ? 'bg-blue-600 text-white' : 'text-blue-200/50 hover:text-white'
+              viewMode === 'combined'
+                ? 'bg-blue-600 text-white'
+                : 'text-blue-200/50 hover:text-white'
             }`}
           >
             <LayoutGrid size={15} />
@@ -39,7 +46,9 @@ export default function PropertyUpdatesPage() {
           <button
             onClick={() => setViewMode('separate')}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              viewMode === 'separate' ? 'bg-blue-600 text-white' : 'text-blue-200/50 hover:text-white'
+              viewMode === 'separate'
+                ? 'bg-blue-600 text-white'
+                : 'text-blue-200/50 hover:text-white'
             }`}
           >
             <List size={15} />
@@ -58,7 +67,9 @@ export default function PropertyUpdatesPage() {
                   <Bell className="text-blue-400" size={18} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-blue-200/50">New Announcements</p>
+                  <p className="text-sm font-medium text-blue-200/50">
+                    New Announcements
+                  </p>
                   <p className="text-2xl font-black text-white">3</p>
                 </div>
               </div>
@@ -69,7 +80,9 @@ export default function PropertyUpdatesPage() {
                   <Wrench className="text-amber-400" size={18} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-blue-200/50">Open Requests</p>
+                  <p className="text-sm font-medium text-blue-200/50">
+                    Open Requests
+                  </p>
                   <p className="text-2xl font-black text-white">2</p>
                 </div>
               </div>
@@ -80,7 +93,9 @@ export default function PropertyUpdatesPage() {
                   <Wrench className="text-emerald-400" size={18} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-blue-200/50">Resolved This Month</p>
+                  <p className="text-sm font-medium text-blue-200/50">
+                    Resolved This Month
+                  </p>
                   <p className="text-2xl font-black text-white">5</p>
                 </div>
               </div>
@@ -103,7 +118,9 @@ export default function PropertyUpdatesPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
-                    activeTab === tab.id ? 'bg-blue-600 text-white' : 'text-blue-200/50 hover:text-white'
+                    activeTab === tab.id
+                      ? 'bg-blue-600 text-white'
+                      : 'text-blue-200/50 hover:text-white'
                   }`}
                 >
                   <Icon size={15} />

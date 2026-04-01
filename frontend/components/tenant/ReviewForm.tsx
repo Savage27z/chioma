@@ -2,11 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { StarRating } from '@/components/common/StarRating';
-import { useTenantReview, useUpdateReview, useDeleteReview } from '@/lib/query/hooks/use-tenant-reviews';
+import {
+  useTenantReview,
+  useUpdateReview,
+  useDeleteReview,
+} from '@/lib/query/hooks/use-tenant-reviews';
 import { Loader2, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-interface ReviewFormProps { reviewId?: string; }
+interface ReviewFormProps {
+  reviewId?: string;
+}
 
 export function ReviewForm({ reviewId }: ReviewFormProps) {
   const router = useRouter();
@@ -18,7 +24,10 @@ export function ReviewForm({ reviewId }: ReviewFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (review) { setRating(review.rating); setComment(review.comment); }
+    if (review) {
+      setRating(review.rating);
+      setComment(review.comment);
+    }
   }, [review]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,18 +35,27 @@ export function ReviewForm({ reviewId }: ReviewFormProps) {
     if (!reviewId || !comment.trim()) return;
     setIsSubmitting(true);
     try {
-      await updateReviewMutation.mutateAsync({ id: reviewId, payload: { rating, comment } });
+      await updateReviewMutation.mutateAsync({
+        id: reviewId,
+        payload: { rating, comment },
+      });
       router.push('/tenant/reviews');
-    } catch (error) { console.error('Failed to update review:', error); }
-    finally { setIsSubmitting(false); }
+    } catch (error) {
+      console.error('Failed to update review:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleDelete = async () => {
-    if (!reviewId || !confirm('Delete this review? This cannot be undone.')) return;
+    if (!reviewId || !confirm('Delete this review? This cannot be undone.'))
+      return;
     try {
       await deleteReviewMutation.mutateAsync(reviewId);
       router.push('/tenant/reviews');
-    } catch (error) { console.error('Failed to delete review:', error); }
+    } catch (error) {
+      console.error('Failed to delete review:', error);
+    }
   };
 
   if (isLoading) {
@@ -55,17 +73,23 @@ export function ReviewForm({ reviewId }: ReviewFormProps) {
         <h1 className="text-2xl font-black text-white tracking-tight">
           {review ? 'Edit Review' : 'Review Details'}
         </h1>
-        <p className="text-blue-200/50 mt-1">{review ? 'Update your review below.' : 'View your review.'}</p>
+        <p className="text-blue-200/50 mt-1">
+          {review ? 'Update your review below.' : 'View your review.'}
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-xs font-bold text-blue-200/50 uppercase tracking-wider mb-3">Rating</label>
+          <label className="block text-xs font-bold text-blue-200/50 uppercase tracking-wider mb-3">
+            Rating
+          </label>
           <StarRating value={rating} onChange={setRating} size={28} />
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-blue-200/50 uppercase tracking-wider mb-2">Review</label>
+          <label className="block text-xs font-bold text-blue-200/50 uppercase tracking-wider mb-2">
+            Review
+          </label>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
@@ -90,7 +114,13 @@ export function ReviewForm({ reviewId }: ReviewFormProps) {
             disabled={isSubmitting || !comment.trim()}
             className="flex-1 sm:flex-none px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            {isSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : 'Save Changes'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" /> Saving...
+              </>
+            ) : (
+              'Save Changes'
+            )}
           </button>
           {review && (
             <button

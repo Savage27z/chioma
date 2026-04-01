@@ -7,6 +7,7 @@ import Logo from '@/components/Logo';
 import { Menu, X } from 'lucide-react';
 import { NAV_LINKS } from '@/constants/navigation';
 import WalletConnectButton from '@/components/auth/WalletConnectButton';
+import { useAuth } from '@/store/authStore';
 
 interface NavbarProps {
   theme?: 'light' | 'dark';
@@ -17,6 +18,7 @@ const Navbar = ({ theme = 'dark' }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { walletAddress } = useAuth();
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -80,7 +82,18 @@ const Navbar = ({ theme = 'dark' }: NavbarProps) => {
 
         {/* Connect Wallet Button */}
         <div className="hidden md:flex items-center space-x-4">
-          <WalletConnectButton className="px-6 py-2.5 text-sm" buttonText="Connect Wallet" />
+          {walletAddress ? (
+            <div className="px-4 py-2.5 rounded-lg bg-green-500/20 border border-green-500/50 backdrop-blur-sm">
+              <p className="text-sm text-green-200 font-mono">
+                {walletAddress.slice(0, 6)}...{walletAddress.slice(-6)}
+              </p>
+            </div>
+          ) : (
+            <WalletConnectButton
+              className="px-6 py-2.5 text-sm"
+              buttonText="Connect Wallet"
+            />
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -116,7 +129,18 @@ const Navbar = ({ theme = 'dark' }: NavbarProps) => {
 
             <div className="pt-4 flex flex-col space-y-4 border-t border-white/10">
               <div onClick={() => setIsMobileMenuOpen(false)}>
-                <WalletConnectButton className="px-6 py-3" buttonText="Connect Wallet" />
+                {walletAddress ? (
+                  <div className="px-4 py-3 rounded-lg bg-green-500/20 border border-green-500/50 backdrop-blur-sm">
+                    <p className="text-sm text-green-200 font-mono">
+                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-6)}
+                    </p>
+                  </div>
+                ) : (
+                  <WalletConnectButton
+                    className="px-6 py-3"
+                    buttonText="Connect Wallet"
+                  />
+                )}
               </div>
             </div>
           </div>

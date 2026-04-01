@@ -13,8 +13,6 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-
-
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || 'https://chioma-kappa.vercel.app',

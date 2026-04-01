@@ -19,6 +19,7 @@ interface AuthState {
   refreshToken: string | null;
   isAuthenticated: boolean;
   loading: boolean;
+  walletAddress: string | null;
 }
 
 interface AuthActions {
@@ -28,6 +29,7 @@ interface AuthActions {
   ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   setTokens: (accessToken: string, refreshToken: string, user: User) => void;
+  setWalletAddress: (address: string | null) => void;
   hydrate: () => void;
 }
 
@@ -39,6 +41,7 @@ const AUTH_STORAGE_KEYS = {
   ACCESS_TOKEN: 'chioma_access_token',
   REFRESH_TOKEN: 'chioma_refresh_token',
   USER: 'chioma_user',
+  WALLET_ADDRESS: 'chioma_wallet_address',
 } as const;
 
 const AUTH_COOKIE_NAME = 'chioma_auth_token';
@@ -62,6 +65,7 @@ function readStoredAuth(): Omit<AuthState, 'loading'> {
       accessToken: null,
       refreshToken: null,
       isAuthenticated: false,
+      walletAddress: null,
     };
   }
 
@@ -73,6 +77,9 @@ function readStoredAuth(): Omit<AuthState, 'loading'> {
       AUTH_STORAGE_KEYS.REFRESH_TOKEN,
     );
     const storedUser = localStorage.getItem(AUTH_STORAGE_KEYS.USER);
+    const storedWalletAddress = localStorage.getItem(
+      AUTH_STORAGE_KEYS.WALLET_ADDRESS,
+    );
 
     if (storedAccessToken && storedUser) {
       return {
@@ -80,6 +87,7 @@ function readStoredAuth(): Omit<AuthState, 'loading'> {
         accessToken: storedAccessToken,
         refreshToken: storedRefreshToken,
         isAuthenticated: true,
+        walletAddress: storedWalletAddress,
       };
     }
   } catch {
@@ -87,6 +95,7 @@ function readStoredAuth(): Omit<AuthState, 'loading'> {
     localStorage.removeItem(AUTH_STORAGE_KEYS.ACCESS_TOKEN);
     localStorage.removeItem(AUTH_STORAGE_KEYS.REFRESH_TOKEN);
     localStorage.removeItem(AUTH_STORAGE_KEYS.USER);
+    localStorage.removeItem(AUTH_STORAGE_KEYS.WALLET_ADDRESS);
     removeAuthCookie();
   }
 
@@ -95,6 +104,7 @@ function readStoredAuth(): Omit<AuthState, 'loading'> {
     accessToken: null,
     refreshToken: null,
     isAuthenticated: false,
+    walletAddress: null,
   };
 }
 
@@ -102,6 +112,7 @@ function clearStorage() {
   localStorage.removeItem(AUTH_STORAGE_KEYS.ACCESS_TOKEN);
   localStorage.removeItem(AUTH_STORAGE_KEYS.REFRESH_TOKEN);
   localStorage.removeItem(AUTH_STORAGE_KEYS.USER);
+  localStorage.removeItem(AUTH_STORAGE_KEYS.WALLET_ADDRESS);
   removeAuthCookie();
 }
 
@@ -123,6 +134,7 @@ export const useAuthStore = create<AuthStore>()(
       refreshToken: null,
       isAuthenticated: false,
       loading: true,
+      walletAddress: null,
 
       /**
        * Hydrate from localStorage on client mount.
@@ -135,6 +147,7 @@ export const useAuthStore = create<AuthStore>()(
           state.accessToken = stored.accessToken;
           state.refreshToken = stored.refreshToken;
           state.isAuthenticated = stored.isAuthenticated;
+          state.walletAddress = stored.walletAddress;
           state.loading = false;
         });
       },
@@ -151,6 +164,20 @@ export const useAuthStore = create<AuthStore>()(
           state.refreshToken = refreshToken;
           state.isAuthenticated = true;
           state.loading = false;
+        });
+      },
+
+      /**
+       * Set wallet address and persist to localStorage.
+       */
+      setWalletAddress: (address: string | null) => {
+        if (address) {
+          localStorage.setItem(AUTH_STORAGE_KEYS.WALLET_ADDRESS, address);
+        } else {
+          localStorage.removeItem(AUTH_STORAGE_KEYS.WALLET_ADDRESS);
+        }
+        set((state) => {
+          state.walletAddress = address;
         });
       },
 
@@ -245,6 +272,7 @@ export const useAuthStore = create<AuthStore>()(
           state.accessToken = null;
           state.refreshToken = null;
           state.isAuthenticated = false;
+          state.walletAddress = null;
           state.loading = false;
         });
       },

@@ -26,52 +26,52 @@ export function OfflineIndicator() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      <div className="rounded-lg border bg-white shadow-lg">
+      <div className="rounded-lg border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-xl">
         {/* Main indicator */}
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="flex items-center gap-3 px-4 py-3 text-sm"
+          className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/5 transition-colors"
         >
           {isOnline ? (
-            <FiWifi className="h-5 w-5 text-green-600" />
+            <FiWifi className="h-5 w-5 text-emerald-400" />
           ) : (
-            <FiWifiOff className="h-5 w-5 text-amber-600" />
+            <FiWifiOff className="h-5 w-5 text-amber-400" />
           )}
 
           <div className="text-left">
-            <div className="font-medium">
+            <div className="font-medium text-white">
               {isOnline ? 'Online' : 'Offline Mode'}
             </div>
             {queueSize > 0 && (
-              <div className="text-xs text-gray-600">
+              <div className="text-xs text-blue-200/60">
                 {queueSize} pending {queueSize === 1 ? 'action' : 'actions'}
               </div>
             )}
           </div>
 
-          {hasConflicts && <FiAlertCircle className="h-5 w-5 text-red-600" />}
+          {hasConflicts && <FiAlertCircle className="h-5 w-5 text-red-400" />}
         </button>
 
         {/* Details panel */}
         {showDetails && (
-          <div className="border-t px-4 py-3">
+          <div className="border-t border-white/5 px-4 py-3">
             <div className="space-y-2 text-sm">
               {queueSize > 0 && (
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Sync queue:</span>
-                  <span className="font-medium">{queueSize}</span>
+                  <span className="text-blue-200/60">Sync queue:</span>
+                  <span className="font-medium text-white">{queueSize}</span>
                 </div>
               )}
 
               {hasConflicts && (
-                <div className="flex items-center gap-2 text-red-600">
+                <div className="flex items-center gap-2 text-red-400">
                   <FiAlertCircle className="h-4 w-4" />
                   <span>Conflicts detected</span>
                 </div>
               )}
 
               {lastSyncResult && (
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-blue-200/40">
                   Last sync: {lastSyncResult.processed} processed,{' '}
                   {lastSyncResult.failed} failed
                 </div>
@@ -81,7 +81,7 @@ export function OfflineIndicator() {
                 <button
                   onClick={() => sync()}
                   disabled={isSyncing}
-                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 px-3 py-2 text-white hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 transition-all"
                 >
                   <FiRefreshCw
                     className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`}

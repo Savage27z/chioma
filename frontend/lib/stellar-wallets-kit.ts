@@ -5,17 +5,17 @@ import { defaultModules } from '@jsr/creit-tech__stellar-wallets-kit/modules/uti
 let isInitialized = false;
 
 export const initializeStellarWalletsKit = () => {
-    if (isInitialized) return;
+  if (isInitialized) return;
 
-    try {
-        StellarWalletsKit.init({
-            theme: SwkAppDarkTheme,
-            modules: defaultModules(),
-        });
-        isInitialized = true;
-    } catch (error) {
-        console.error('Failed to initialize Stellar Wallets Kit:', error);
-    }
+  try {
+    StellarWalletsKit.init({
+      theme: SwkAppDarkTheme,
+      modules: defaultModules(),
+    });
+    isInitialized = true;
+  } catch (error) {
+    console.error('Failed to initialize Stellar Wallets Kit:', error);
+  }
 };
 
 export { StellarWalletsKit };

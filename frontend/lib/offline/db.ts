@@ -295,7 +295,7 @@ export async function getUnresolvedConflicts(): Promise<ConflictRecord[]> {
 
     request.onsuccess = () => {
       const allConflicts = request.result as ConflictRecord[];
-      const unresolved = allConflicts.filter(c => c.resolved === false);
+      const unresolved = allConflicts.filter((c) => c.resolved === false);
       resolve(unresolved);
     };
     request.onerror = () => reject(request.error);

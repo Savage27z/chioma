@@ -2,12 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/store/authStore';
-import { initializeStellarWalletsKit, StellarWalletsKit } from '@/lib/stellar-wallets-kit';
-import toast from 'react-hot-toast';
 import {
-  requestChallenge,
-  verifySignature,
-} from '@/lib/stellar-auth';
+  initializeStellarWalletsKit,
+  StellarWalletsKit,
+} from '@/lib/stellar-wallets-kit';
+import toast from 'react-hot-toast';
+import { requestChallenge, verifySignature } from '@/lib/stellar-auth';
 import * as StellarSdk from '@stellar/stellar-sdk';
 
 interface WalletConnectButtonProps {
@@ -22,7 +22,7 @@ export default function WalletConnectButton({
   buttonText = 'Connect Wallet',
 }: WalletConnectButtonProps) {
   const buttonWrapperRef = useRef<HTMLDivElement>(null);
-  const { setTokens } = useAuth();
+  const { setTokens, setWalletAddress } = useAuth();
   const isInitializedRef = useRef(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -33,11 +33,12 @@ export default function WalletConnectButton({
   }, []);
 
   useEffect(() => {
-    if (!isMounted || !buttonWrapperRef.current || isInitializedRef.current) return;
+    if (!isMounted || !buttonWrapperRef.current || isInitializedRef.current)
+      return;
 
     try {
       initializeStellarWalletsKit();
-      
+
       // Create the wallet kit button
       StellarWalletsKit.createButton(buttonWrapperRef.current);
       isInitializedRef.current = true;
@@ -49,7 +50,7 @@ export default function WalletConnectButton({
 
         try {
           const { address } = await StellarWalletsKit.getAddress();
-          
+
           if (!address) {
             throw new Error('Failed to get wallet address');
           }
@@ -65,24 +66,29 @@ export default function WalletConnectButton({
           toast.loading('Please sign the transaction in your wallet...', {
             id: 'wallet-sign',
           });
-          
+
           const { signedTxXdr } = await StellarWalletsKit.signTransaction(
             challengeXdr,
             {
               networkPassphrase: StellarSdk.Networks.PUBLIC,
               address,
-            }
+            },
           );
           toast.dismiss('wallet-sign');
 
           // Verify Signature
           toast.loading('Verifying authentication...', { id: 'wallet-verify' });
-          const result = await verifySignature(address, challengeXdr, signedTxXdr);
+          const result = await verifySignature(
+            address,
+            challengeXdr,
+            signedTxXdr,
+          );
           toast.dismiss('wallet-verify');
 
           // Manage session state
           if (result.accessToken && result.refreshToken && result.user) {
             setTokens(result.accessToken, result.refreshToken, result.user);
+            setWalletAddress(address);
             toast.success('Successfully logged in with Wallet!');
             if (onSuccess) {
               onSuccess();
@@ -133,12 +139,18 @@ export default function WalletConnectButton({
       console.error('Failed to initialize wallet button:', error);
       toast.error('Failed to initialize wallet connection');
     }
-  }, [setTokens, onSuccess, isConnecting, isMounted]);
+  }, [setTokens, setWalletAddress, onSuccess, isConnecting, isMounted]);
 
   // Don't render anything until mounted on client
   if (!isMounted) {
     return <div className={className} />;
   }
 
-  return <div ref={buttonWrapperRef} className={className} suppressHydrationWarning />;
+  return (
+    <div
+      ref={buttonWrapperRef}
+      className={className}
+      suppressHydrationWarning
+    />
+  );
 }

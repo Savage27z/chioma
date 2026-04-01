@@ -5,8 +5,12 @@ export default function TenantSecurityPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-black text-white tracking-tight mb-1">Account Security</h1>
-        <p className="text-blue-200/50">Manage your two-factor authentication and signed-in devices.</p>
+        <h1 className="text-3xl font-black text-white tracking-tight mb-1">
+          Account Security
+        </h1>
+        <p className="text-blue-200/50">
+          Manage your two-factor authentication and signed-in devices.
+        </p>
       </div>
 
       {/* Status Card */}
@@ -16,8 +20,12 @@ export default function TenantSecurityPage() {
             <ShieldCheck className="text-emerald-400" size={24} />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white mb-1">Your account is secured</h3>
-            <p className="text-blue-200/50 text-sm mb-3">No suspicious logins detected. Password updated 30 days ago.</p>
+            <h3 className="text-lg font-bold text-white mb-1">
+              Your account is secured
+            </h3>
+            <p className="text-blue-200/50 text-sm mb-3">
+              No suspicious logins detected. Password updated 30 days ago.
+            </p>
             <button className="text-emerald-400 hover:text-emerald-300 text-sm font-semibold transition-colors">
               Review security log →
             </button>
@@ -31,8 +39,12 @@ export default function TenantSecurityPage() {
           <div className="w-10 h-10 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Smartphone className="text-blue-400" size={20} />
           </div>
-          <h3 className="text-white font-bold mb-1">Two-Factor Authentication</h3>
-          <p className="text-blue-200/40 text-sm">Add an extra layer of security to your account.</p>
+          <h3 className="text-white font-bold mb-1">
+            Two-Factor Authentication
+          </h3>
+          <p className="text-blue-200/40 text-sm">
+            Add an extra layer of security to your account.
+          </p>
           <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-bold text-amber-400 uppercase tracking-wider">
             <AlertTriangle size={12} />
             Not enabled
@@ -44,7 +56,9 @@ export default function TenantSecurityPage() {
             <Lock className="text-purple-400" size={20} />
           </div>
           <h3 className="text-white font-bold mb-1">Change Password</h3>
-          <p className="text-blue-200/40 text-sm">Update your password to keep your account safe.</p>
+          <p className="text-blue-200/40 text-sm">
+            Update your password to keep your account safe.
+          </p>
           <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-bold text-emerald-400 uppercase tracking-wider">
             <ShieldCheck size={12} />
             Up to date

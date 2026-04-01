@@ -4,9 +4,27 @@ import { MicroCharts } from '@/components/dashboard/MicroCharts';
 import { TenantOnboardingBanner } from '@/components/tenant/TenantOnboardingBanner';
 
 const mockAgreements = [
-  { id: 'AGR-4921', property: 'Sunset Apartments, Unit 4B', amount: '$1,200', dueDate: 'Oct 1, 2023', status: 'Active' },
-  { id: 'AGR-4922', property: 'Downtown Loft, Unit 12', amount: '$2,500', dueDate: 'Nov 1, 2023', status: 'Pending' },
-  { id: 'AGR-3810', property: 'Suburban Home', amount: '$1,800', dueDate: 'Sep 1, 2023', status: 'Completed' },
+  {
+    id: 'AGR-4921',
+    property: 'Sunset Apartments, Unit 4B',
+    amount: '$1,200',
+    dueDate: 'Oct 1, 2023',
+    status: 'Active',
+  },
+  {
+    id: 'AGR-4922',
+    property: 'Downtown Loft, Unit 12',
+    amount: '$2,500',
+    dueDate: 'Nov 1, 2023',
+    status: 'Pending',
+  },
+  {
+    id: 'AGR-3810',
+    property: 'Suburban Home',
+    amount: '$1,800',
+    dueDate: 'Sep 1, 2023',
+    status: 'Completed',
+  },
 ];
 
 const agreements = process.env.NODE_ENV === 'production' ? [] : mockAgreements;
@@ -44,7 +62,9 @@ export default function TenantDashboardOverview() {
               Next Payment Due
             </p>
             <div className="flex items-baseline gap-2 mt-1">
-              <h3 className="text-3xl font-bold tracking-tight text-white">$1,200</h3>
+              <h3 className="text-3xl font-bold tracking-tight text-white">
+                $1,200
+              </h3>
               <span className="text-sm text-blue-300/40">/mo</span>
             </div>
             <p className="text-sm text-blue-200/60 mt-2 truncate">
@@ -64,8 +84,12 @@ export default function TenantDashboardOverview() {
             </span>
           </div>
           <div className="mt-4">
-            <p className="text-sm font-medium text-blue-200/60 uppercase tracking-wider">Active Lease</p>
-            <h3 className="text-xl font-bold tracking-tight text-white mt-1">12 Months</h3>
+            <p className="text-sm font-medium text-blue-200/60 uppercase tracking-wider">
+              Active Lease
+            </p>
+            <h3 className="text-xl font-bold tracking-tight text-white mt-1">
+              12 Months
+            </h3>
             <div className="mt-3 w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
               <div
                 className="bg-gradient-to-r from-emerald-500 to-teal-400 h-1.5 rounded-full transition-all duration-1000"
@@ -95,7 +119,9 @@ export default function TenantDashboardOverview() {
                 <p className="text-sm font-medium text-blue-200/60 uppercase tracking-wider">
                   Rent Paid This Year
                 </p>
-                <h3 className="text-2xl font-bold tracking-tight text-white mt-1">$8,400</h3>
+                <h3 className="text-2xl font-bold tracking-tight text-white mt-1">
+                  $8,400
+                </h3>
               </div>
             </div>
           </div>
@@ -105,7 +131,9 @@ export default function TenantDashboardOverview() {
       {/* Agreements Table */}
       <div className="bg-white/5 backdrop-blur-sm rounded-3xl shadow-xl border border-white/10 overflow-hidden">
         <div className="px-6 py-5 border-b border-white/5 flex items-center justify-between">
-          <h3 className="text-lg font-bold text-white tracking-tight">Active Agreements</h3>
+          <h3 className="text-lg font-bold text-white tracking-tight">
+            Active Agreements
+          </h3>
           <button className="text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors">
             View All
           </button>
@@ -114,30 +142,51 @@ export default function TenantDashboardOverview() {
           <table className="w-full text-left text-sm whitespace-nowrap">
             <thead className="bg-white/5 text-blue-300/40">
               <tr>
-                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Agreement ID</th>
-                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Property</th>
-                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Monthly Rent</th>
-                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">Next Due</th>
-                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px] text-right">Status</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">
+                  Agreement ID
+                </th>
+                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">
+                  Property
+                </th>
+                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">
+                  Monthly Rent
+                </th>
+                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px]">
+                  Next Due
+                </th>
+                <th className="px-6 py-4 font-bold uppercase tracking-widest text-[10px] text-right">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {agreements.map((agreement) => (
-                <tr key={agreement.id} className="hover:bg-white/5 transition-colors group">
+                <tr
+                  key={agreement.id}
+                  className="hover:bg-white/5 transition-colors group"
+                >
                   <td className="px-6 py-4 font-bold text-white group-hover:text-blue-400 transition-colors">
                     {agreement.id}
                   </td>
-                  <td className="px-6 py-4 text-blue-200/60 font-medium">{agreement.property}</td>
-                  <td className="px-6 py-4 text-white font-bold">{agreement.amount}</td>
-                  <td className="px-6 py-4 text-blue-200/60 font-medium">{agreement.dueDate}</td>
+                  <td className="px-6 py-4 text-blue-200/60 font-medium">
+                    {agreement.property}
+                  </td>
+                  <td className="px-6 py-4 text-white font-bold">
+                    {agreement.amount}
+                  </td>
+                  <td className="px-6 py-4 text-blue-200/60 font-medium">
+                    {agreement.dueDate}
+                  </td>
                   <td className="px-6 py-4 text-right">
-                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
-                      agreement.status === 'Active'
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                        : agreement.status === 'Pending'
-                          ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                          : 'bg-white/5 text-blue-300/40 border-white/10'
-                    }`}>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                        agreement.status === 'Active'
+                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                          : agreement.status === 'Pending'
+                            ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                            : 'bg-white/5 text-blue-300/40 border-white/10'
+                      }`}
+                    >
                       {agreement.status}
                     </span>
                   </td>

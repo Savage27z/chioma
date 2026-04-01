@@ -2,8 +2,18 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Users, Gift, Share2, Copy, CheckCircle2, Coins, ArrowRight,
-  Sparkles, Link as LinkIcon, Twitter, Facebook, Linkedin,
+  Users,
+  Gift,
+  Share2,
+  Copy,
+  CheckCircle2,
+  Coins,
+  ArrowRight,
+  Sparkles,
+  Link as LinkIcon,
+  Twitter,
+  Facebook,
+  Linkedin,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -28,11 +38,39 @@ const generateMockReferralStats = (): ReferralStats => ({
   completedReferrals: 8,
   totalRewards: 80,
   referrals: [
-    { id: '1', referredName: 'John Doe', status: 'REWARDED', createdAt: new Date(Date.now() - 2 * 86400000).toISOString(), rewardAmount: 10 },
-    { id: '2', referredName: 'Jane Smith', status: 'REWARDED', createdAt: new Date(Date.now() - 5 * 86400000).toISOString(), rewardAmount: 10 },
-    { id: '3', referredName: 'Michael Brown', status: 'COMPLETED', createdAt: new Date(Date.now() - 7 * 86400000).toISOString(), rewardAmount: 10 },
-    { id: '4', referredName: 'Emily Davis', status: 'PENDING', createdAt: new Date(Date.now() - 86400000).toISOString() },
-    { id: '5', referredName: 'Chris Wilson', status: 'PENDING', createdAt: new Date(Date.now() - 3 * 86400000).toISOString() },
+    {
+      id: '1',
+      referredName: 'John Doe',
+      status: 'REWARDED',
+      createdAt: new Date(Date.now() - 2 * 86400000).toISOString(),
+      rewardAmount: 10,
+    },
+    {
+      id: '2',
+      referredName: 'Jane Smith',
+      status: 'REWARDED',
+      createdAt: new Date(Date.now() - 5 * 86400000).toISOString(),
+      rewardAmount: 10,
+    },
+    {
+      id: '3',
+      referredName: 'Michael Brown',
+      status: 'COMPLETED',
+      createdAt: new Date(Date.now() - 7 * 86400000).toISOString(),
+      rewardAmount: 10,
+    },
+    {
+      id: '4',
+      referredName: 'Emily Davis',
+      status: 'PENDING',
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+    },
+    {
+      id: '5',
+      referredName: 'Chris Wilson',
+      status: 'PENDING',
+      createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+    },
   ],
   referralCode: 'CHIOMA-TRUST-2024',
 });
@@ -43,11 +81,15 @@ export default function TenantReferralsPage() {
   const [isCopying, setIsCopying] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => { setStats(generateMockReferralStats()); setIsLoading(false); }, 1200);
+    setTimeout(() => {
+      setStats(generateMockReferralStats());
+      setIsLoading(false);
+    }, 1200);
   }, []);
 
   const referralLink = useMemo(() => {
-    if (typeof window !== 'undefined' && stats) return `${window.location.origin}/register?ref=${stats.referralCode}`;
+    if (typeof window !== 'undefined' && stats)
+      return `${window.location.origin}/register?ref=${stats.referralCode}`;
     return '';
   }, [stats]);
 
@@ -67,7 +109,9 @@ export default function TenantReferralsPage() {
             <Sparkles className="text-blue-500 animate-pulse" size={20} />
           </div>
         </div>
-        <p className="text-blue-200/50 font-medium animate-pulse">Loading your referral rewards...</p>
+        <p className="text-blue-200/50 font-medium animate-pulse">
+          Loading your referral rewards...
+        </p>
       </div>
     );
   }
@@ -92,7 +136,8 @@ export default function TenantReferralsPage() {
             </h1>
             <p className="text-lg text-blue-100/80 leading-relaxed">
               Share Chioma with property owners and managers. Earn{' '}
-              <span className="text-white font-bold">10 USDC</span> for every successful referral.
+              <span className="text-white font-bold">10 USDC</span> for every
+              successful referral.
             </p>
           </div>
           <div className="w-full lg:w-80 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center space-y-5">
@@ -100,8 +145,12 @@ export default function TenantReferralsPage() {
               <Gift size={32} className="text-white" />
             </div>
             <div>
-              <p className="text-blue-100/60 font-bold uppercase tracking-widest text-xs mb-1">Your Referral Code</p>
-              <div className="text-2xl font-black text-white tracking-tight uppercase">{stats.referralCode}</div>
+              <p className="text-blue-100/60 font-bold uppercase tracking-widest text-xs mb-1">
+                Your Referral Code
+              </p>
+              <div className="text-2xl font-black text-white tracking-tight uppercase">
+                {stats.referralCode}
+              </div>
             </div>
             <button
               onClick={() => handleCopy(stats.referralCode)}
@@ -117,9 +166,25 @@ export default function TenantReferralsPage() {
       {/* Stats + Share */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <StatCard title="Total Referrals" value={stats.totalReferrals} icon={Users} color="blue" />
-          <StatCard title="Converted" value={stats.completedReferrals} icon={CheckCircle2} color="emerald" />
-          <StatCard title="Rewards Earned" value={stats.totalRewards} icon={Coins} unit="USDC" color="amber" />
+          <StatCard
+            title="Total Referrals"
+            value={stats.totalReferrals}
+            icon={Users}
+            color="blue"
+          />
+          <StatCard
+            title="Converted"
+            value={stats.completedReferrals}
+            icon={CheckCircle2}
+            color="emerald"
+          />
+          <StatCard
+            title="Rewards Earned"
+            value={stats.totalRewards}
+            icon={Coins}
+            unit="USDC"
+            color="amber"
+          />
 
           <div className="md:col-span-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 space-y-4">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
@@ -128,7 +193,10 @@ export default function TenantReferralsPage() {
             </h3>
             <div className="flex flex-col md:flex-row gap-3">
               <div className="flex-1 relative">
-                <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300/30" size={16} />
+                <LinkIcon
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300/30"
+                  size={16}
+                />
                 <input
                   type="text"
                   readOnly
@@ -143,9 +211,24 @@ export default function TenantReferralsPage() {
                 </button>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => toast.error('Twitter sharing coming soon!')} className="p-3 bg-sky-500 text-white rounded-xl hover:scale-110 active:scale-95 transition-all"><Twitter size={18} /></button>
-                <button onClick={() => toast.error('Facebook sharing coming soon!')} className="p-3 bg-blue-600 text-white rounded-xl hover:scale-110 active:scale-95 transition-all"><Facebook size={18} /></button>
-                <button onClick={() => toast.error('LinkedIn sharing coming soon!')} className="p-3 bg-indigo-600 text-white rounded-xl hover:scale-110 active:scale-95 transition-all"><Linkedin size={18} /></button>
+                <button
+                  onClick={() => toast.error('Twitter sharing coming soon!')}
+                  className="p-3 bg-sky-500 text-white rounded-xl hover:scale-110 active:scale-95 transition-all"
+                >
+                  <Twitter size={18} />
+                </button>
+                <button
+                  onClick={() => toast.error('Facebook sharing coming soon!')}
+                  className="p-3 bg-blue-600 text-white rounded-xl hover:scale-110 active:scale-95 transition-all"
+                >
+                  <Facebook size={18} />
+                </button>
+                <button
+                  onClick={() => toast.error('LinkedIn sharing coming soon!')}
+                  className="p-3 bg-indigo-600 text-white rounded-xl hover:scale-110 active:scale-95 transition-all"
+                >
+                  <Linkedin size={18} />
+                </button>
               </div>
             </div>
           </div>
@@ -156,15 +239,31 @@ export default function TenantReferralsPage() {
           <h3 className="text-lg font-bold text-white">How it works</h3>
           <div className="space-y-6">
             {[
-              { n: '01', title: 'Share Code', desc: 'Invite friends using your unique code or referral link.' },
-              { n: '02', title: 'Friend Registers', desc: 'They create an account and complete their profile.' },
-              { n: '03', title: 'First Transaction', desc: 'Once they complete their first asset-based transaction.' },
+              {
+                n: '01',
+                title: 'Share Code',
+                desc: 'Invite friends using your unique code or referral link.',
+              },
+              {
+                n: '02',
+                title: 'Friend Registers',
+                desc: 'They create an account and complete their profile.',
+              },
+              {
+                n: '03',
+                title: 'First Transaction',
+                desc: 'Once they complete their first asset-based transaction.',
+              },
             ].map(({ n, title, desc }) => (
               <div key={n} className="flex gap-4 group">
-                <div className="text-2xl font-black text-blue-500/20 group-hover:text-blue-500 transition-colors mt-0.5">{n}</div>
+                <div className="text-2xl font-black text-blue-500/20 group-hover:text-blue-500 transition-colors mt-0.5">
+                  {n}
+                </div>
                 <div>
                   <h4 className="text-white font-bold">{title}</h4>
-                  <p className="text-blue-200/40 text-sm leading-relaxed mt-0.5">{desc}</p>
+                  <p className="text-blue-200/40 text-sm leading-relaxed mt-0.5">
+                    {desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -174,8 +273,12 @@ export default function TenantReferralsPage() {
                   <Coins size={20} />
                 </div>
                 <div>
-                  <div className="text-emerald-400 font-black text-xs uppercase tracking-widest">Get Paid</div>
-                  <div className="text-white font-bold text-sm">10 USDC credited to your wallet</div>
+                  <div className="text-emerald-400 font-black text-xs uppercase tracking-widest">
+                    Get Paid
+                  </div>
+                  <div className="text-white font-bold text-sm">
+                    10 USDC credited to your wallet
+                  </div>
                 </div>
               </div>
             </div>
@@ -196,44 +299,75 @@ export default function TenantReferralsPage() {
           <table className="w-full text-left">
             <thead>
               <tr className="bg-white/5">
-                {['User Involved', 'Date Joined', 'Status', 'Award'].map((h) => (
-                  <th key={h} className="px-6 py-4 text-xs font-black text-blue-300/30 uppercase tracking-widest last:text-right">{h}</th>
-                ))}
+                {['User Involved', 'Date Joined', 'Status', 'Award'].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      className="px-6 py-4 text-xs font-black text-blue-300/30 uppercase tracking-widest last:text-right"
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {stats.referrals.map((referral) => (
-                <tr key={referral.id} className="group hover:bg-white/5 transition-all">
+                <tr
+                  key={referral.id}
+                  className="group hover:bg-white/5 transition-all"
+                >
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center font-black text-white text-sm">
                         {referral.referredName.charAt(0)}
                       </div>
-                      <span className="font-bold text-white group-hover:text-blue-400 transition-colors">{referral.referredName}</span>
+                      <span className="font-bold text-white group-hover:text-blue-400 transition-colors">
+                        {referral.referredName}
+                      </span>
                     </div>
                   </td>
                   <td className="px-6 py-5 text-blue-200/50 font-medium text-sm">
-                    {new Date(referral.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(referral.createdAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </td>
                   <td className="px-6 py-5">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                      referral.status === 'REWARDED' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                      : referral.status === 'PENDING' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                      : referral.status === 'COMPLETED' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                      : 'bg-white/5 text-blue-300/30 border-white/10'
-                    }`}>
-                      <div className={`w-1.5 h-1.5 rounded-full ${
-                        referral.status === 'REWARDED' ? 'bg-emerald-400'
-                        : referral.status === 'PENDING' ? 'bg-amber-400 animate-pulse'
-                        : referral.status === 'COMPLETED' ? 'bg-blue-400'
-                        : 'bg-slate-400'
-                      }`}></div>
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                        referral.status === 'REWARDED'
+                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                          : referral.status === 'PENDING'
+                            ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                            : referral.status === 'COMPLETED'
+                              ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                              : 'bg-white/5 text-blue-300/30 border-white/10'
+                      }`}
+                    >
+                      <div
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          referral.status === 'REWARDED'
+                            ? 'bg-emerald-400'
+                            : referral.status === 'PENDING'
+                              ? 'bg-amber-400 animate-pulse'
+                              : referral.status === 'COMPLETED'
+                                ? 'bg-blue-400'
+                                : 'bg-slate-400'
+                        }`}
+                      ></div>
                       {referral.status}
                     </span>
                   </td>
                   <td className="px-6 py-5 text-right">
                     {referral.rewardAmount ? (
-                      <span className="text-lg font-black text-white">{referral.rewardAmount} <span className="text-[10px] font-black text-blue-400 uppercase">USDC</span></span>
+                      <span className="text-lg font-black text-white">
+                        {referral.rewardAmount}{' '}
+                        <span className="text-[10px] font-black text-blue-400 uppercase">
+                          USDC
+                        </span>
+                      </span>
                     ) : (
                       <span className="text-blue-300/20 font-bold">—</span>
                     )}
@@ -246,7 +380,10 @@ export default function TenantReferralsPage() {
         <div className="p-5 bg-white/5 flex items-center justify-center group cursor-pointer hover:bg-white/10 transition-all">
           <span className="text-blue-200/30 group-hover:text-white transition-colors flex items-center gap-2 font-black uppercase tracking-widest text-xs">
             Show all referral history
-            <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight
+              size={12}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </span>
         </div>
       </div>
@@ -270,13 +407,21 @@ function StatCard({ title, value, icon: Icon, color, unit }: StatCardProps) {
   };
   return (
     <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
-      <div className={`w-10 h-10 ${colors[color]} rounded-xl flex items-center justify-center border mb-4`}>
+      <div
+        className={`w-10 h-10 ${colors[color]} rounded-xl flex items-center justify-center border mb-4`}
+      >
         <Icon size={20} />
       </div>
-      <p className="text-blue-300/40 font-black text-xs uppercase tracking-widest mb-1">{title}</p>
+      <p className="text-blue-300/40 font-black text-xs uppercase tracking-widest mb-1">
+        {title}
+      </p>
       <div className="flex items-baseline gap-1">
         <span className="text-3xl font-black text-white">{value}</span>
-        {unit && <span className="text-xs font-black text-blue-400 uppercase">{unit}</span>}
+        {unit && (
+          <span className="text-xs font-black text-blue-400 uppercase">
+            {unit}
+          </span>
+        )}
       </div>
     </div>
   );

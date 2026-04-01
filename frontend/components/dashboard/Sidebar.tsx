@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import { navItems } from '@/types/sidebar-items';
 import Logo from '@/components/Logo';
+import { useAuth } from '@/store/authStore';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -14,11 +15,17 @@ interface SidebarProps {
 
 export const Sidebar = ({ isOpen, onClose, navItems }: SidebarProps) => {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard';
     if (href === '/tenant') return pathname === '/tenant';
     return pathname.startsWith(href);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = '/';
   };
 
   return (
@@ -73,7 +80,10 @@ export const Sidebar = ({ isOpen, onClose, navItems }: SidebarProps) => {
 
         {/* User Profile / Logout Area */}
         <div className="p-4 border-t border-white/10">
-          <button className="flex items-center space-x-3 px-4 py-3 rounded-xl w-full text-left text-blue-200/70 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200">
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-3 px-4 py-3 rounded-xl w-full text-left text-blue-200/70 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200"
+          >
             <LogOut size={20} />
             <span className="text-sm font-medium">Log out</span>
           </button>

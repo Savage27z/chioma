@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { useAuth } from '@/store/authStore';
 
 export default function Hero() {
+  const { walletAddress } = useAuth();
   return (
     <section className="relative pt-20 pb-32 overflow-hidden">
       {/* Animated background elements */}
@@ -60,6 +62,23 @@ export default function Hero() {
             the paperwork.
           </motion.p>
 
+          {/* Display Wallet Address if Connected */}
+          {walletAddress && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="inline-block px-4 py-2 rounded-lg bg-green-500/20 border border-green-500/50 backdrop-blur-sm"
+            >
+              <p className="text-sm text-green-200">
+                Connected Wallet:{' '}
+                <span className="font-mono font-semibold">
+                  {walletAddress.slice(0, 6)}...{walletAddress.slice(-6)}
+                </span>
+              </p>
+            </motion.div>
+          )}
+
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -111,20 +130,16 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.5 }}
           className="mt-20 max-w-6xl mx-auto"
         >
-          <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl backdrop-blur-sm bg-white/5 p-1">
-            <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl flex items-center justify-center">
-              <div className="text-center space-y-4 p-8">
-                <Image
-                  src="/logo_256.png"
-                  alt="Chioma"
-                  width={80}
-                  height={80}
-                  className="rounded-2xl mx-auto"
-                />
-                <p className="text-white/60 text-sm">
-                  Platform Dashboard Preview
-                </p>
-              </div>
+          <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+            <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden">
+              <Image
+                src="/dashboard-preview.png"
+                alt="Platform Dashboard Preview"
+                width={1200}
+                height={675}
+                className="w-full h-full object-fill"
+                priority
+              />
             </div>
           </div>
         </motion.div>

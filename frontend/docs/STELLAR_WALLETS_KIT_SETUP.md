@@ -29,6 +29,7 @@ pnpm install
 ```
 
 This installs:
+
 - `@creit-tech/stellar-wallets-kit` - Multi-wallet support library
 - `@stellar/stellar-sdk` - Stellar SDK for transaction handling
 
@@ -63,6 +64,7 @@ This installs:
 ## Usage
 
 The `WalletConnectButton` component is used in:
+
 - Login page (`frontend/app/login/page.tsx`)
 - Navbar (`frontend/components/Navbar.tsx`)
 
@@ -73,7 +75,7 @@ import WalletConnectButton from '@/components/auth/WalletConnectButton';
 
 export default function MyComponent() {
   return (
-    <WalletConnectButton 
+    <WalletConnectButton
       className="w-full"
       buttonText="Connect Wallet"
       onSuccess={() => console.log('Connected!')}
@@ -94,15 +96,16 @@ The kit is configured to use the **PUBLIC** Stellar network by default. To chang
 
 ```typescript
 // For testnet
-networkPassphrase: StellarSdk.Networks.TESTNET
+networkPassphrase: StellarSdk.Networks.TESTNET;
 
 // For public
-networkPassphrase: StellarSdk.Networks.PUBLIC
+networkPassphrase: StellarSdk.Networks.PUBLIC;
 ```
 
 ## Error Handling
 
 The component handles various error scenarios:
+
 - User cancels wallet connection
 - User rejects transaction signing
 - Network errors
