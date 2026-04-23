@@ -3,7 +3,9 @@ use soroban_sdk::{Address, Env, String};
 
 use crate::errors::PaymentError;
 use crate::storage::DataKey;
-use crate::types::{AgreementStatus, EscalationType, PaymentRecord, RentAgreement, RentEscalationConfig};
+use crate::types::{
+    AgreementStatus, EscalationType, PaymentRecord, RentAgreement, RentEscalationConfig,
+};
 
 /// Calculate the rent amount for a specific period (payment number) with escalation
 pub fn calculate_rent_for_period(

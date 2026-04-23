@@ -280,7 +280,7 @@ impl PaymentContract {
             return Err(Error::InvalidPaymentAmount);
         }
 
-        let payment_number = (agreement.payment_history.len() + 1) as u32;
+        let payment_number = agreement.payment_history.len() + 1;
         let expected_amount = if let Some(config) = env
             .storage()
             .persistent()

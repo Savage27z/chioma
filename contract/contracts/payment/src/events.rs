@@ -7,11 +7,7 @@ pub struct RentEscalationConfigSet {
     pub annual_rate_bps: u32,
 }
 
-pub(crate) fn rent_escalation_config_set(
-    env: &Env,
-    agreement_id: String,
-    annual_rate_bps: u32,
-) {
+pub(crate) fn rent_escalation_config_set(env: &Env, agreement_id: String, annual_rate_bps: u32) {
     RentEscalationConfigSet {
         agreement_id,
         annual_rate_bps,
