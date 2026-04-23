@@ -35,6 +35,8 @@ impl EscrowContract {
         depositor: Address,
         beneficiary: Address,
         arbiter: Address,
+        platform_governance: Address,
+        agent_referral: Address,
         amount: i128,
         token: Address,
     ) -> Result<BytesN<32>, EscrowError> {
@@ -43,7 +45,7 @@ impl EscrowContract {
             return Err(EscrowError::InsufficientFunds);
         }
 
-        // Ensure all parties are distinct
+        // Ensure primary parties are distinct
         if depositor == beneficiary || depositor == arbiter || beneficiary == arbiter {
             return Err(EscrowError::InvalidSigner);
         }
@@ -65,6 +67,8 @@ impl EscrowContract {
             depositor: depositor.clone(),
             beneficiary: beneficiary.clone(),
             arbiter: arbiter.clone(),
+            platform_governance,
+            agent_referral,
             amount,
             token,
             status: EscrowStatus::Pending,
@@ -772,5 +776,134 @@ impl EscrowContract {
     pub fn is_escrow_frozen(env: Env, escrow_id: BytesN<32>) -> Result<bool, EscrowError> {
         let escrow = EscrowStorage::get(&env, &escrow_id).ok_or(EscrowError::EscrowNotFound)?;
         Ok(escrow.is_frozen)
+    }
+
+    /// Release rent with automatic 90/5/5 fee split.
+    ///
+    /// Distributes the full escrow balance:
+    ///   - beneficiary (landlord/admin): 90%
+    ///   - platform_governance: 5%
+    ///   - agent_referral: remainder (total - beneficiary_share - governance_share)
+    ///
+    /// Integer arithmetic using scale multiplication avoids rounding loss: the
+    /// remainder is assigned to agent_referral so that all strokes sum to `amount`.
+    ///
+    /// CHECKS:
+    /// - Escrow must exist and be in Funded state (not Disputed)
+    /// - Caller must be the arbiter
+    ///
+    /// EFFECTS:
+    /// - Escrow status → Released
+    ///
+    /// INTERACTIONS:
+    /// - Three token transfers after all state updates
+    pub fn release_rent(
+        env: Env,
+        escrow_id: BytesN<32>,
+        caller: Address,
+    ) -> Result<(), EscrowError> {
+        let mut escrow = EscrowStorage::get(&env, &escrow_id).ok_or(EscrowError::EscrowNotFound)?;
+
+        AccessControl::is_arbiter(&escrow, &caller)?;
+
+        if escrow.status != EscrowStatus::Funded {
+            return Err(EscrowError::InvalidState);
+        }
+
+        caller.require_auth();
+
+        let total = escrow.amount;
+        let beneficiary_share = total * 90 / 100;
+        let governance_share = total * 5 / 100;
+        let agent_share = total - beneficiary_share - governance_share;
+
+        // EFFECTS: mark as released before any transfers (checks-effects-interactions)
+        escrow.status = EscrowStatus::Released;
+        EscrowStorage::save(&env, &escrow);
+
+        // INTERACTIONS: distribute funds
+        let token_client = token::Client::new(&env, &escrow.token);
+        token_client.transfer(
+            &env.current_contract_address(),
+            &escrow.beneficiary,
+            &beneficiary_share,
+        );
+        token_client.transfer(
+            &env.current_contract_address(),
+            &escrow.platform_governance,
+            &governance_share,
+        );
+        token_client.transfer(
+            &env.current_contract_address(),
+            &escrow.agent_referral,
+            &agent_share,
+        );
+
+        events::rent_released(
+            &env,
+            escrow_id,
+            beneficiary_share,
+            governance_share,
+            agent_share,
+        );
+        Ok(())
+    }
+
+    /// Withdraw safety deposit back to the depositor.
+    ///
+    /// Can only be called when:
+    ///   1. The escrow timeout has elapsed (same timestamp logic as release_escrow_on_timeout)
+    ///   2. No active dispute is registered (status must NOT be Disputed)
+    ///
+    /// CHECKS:
+    /// - Escrow must exist and be in Funded state
+    /// - Caller must be the depositor
+    /// - Escrow must not be in Disputed state
+    /// - Timeout must have passed (now > created_at + timeout_days * 86400)
+    ///
+    /// EFFECTS:
+    /// - Escrow status → Refunded
+    ///
+    /// INTERACTIONS:
+    /// - Token transfer after state update
+    pub fn withdraw_safety_deposit(
+        env: Env,
+        escrow_id: BytesN<32>,
+        caller: Address,
+    ) -> Result<(), EscrowError> {
+        let mut escrow = EscrowStorage::get(&env, &escrow_id).ok_or(EscrowError::EscrowNotFound)?;
+
+        AccessControl::is_depositor(&escrow, &caller)?;
+
+        if escrow.status == EscrowStatus::Disputed {
+            return Err(EscrowError::DisputeActive);
+        }
+
+        if escrow.status != EscrowStatus::Funded {
+            return Err(EscrowError::InvalidState);
+        }
+
+        caller.require_auth();
+
+        let timeout_seconds = escrow.timeout_days.saturating_mul(86_400);
+        let deadline = escrow.created_at.saturating_add(timeout_seconds);
+        if env.ledger().timestamp() <= deadline {
+            return Err(EscrowError::TimeoutNotReached);
+        }
+
+        // EFFECTS
+        escrow.status = EscrowStatus::Refunded;
+        EscrowStorage::save(&env, &escrow);
+
+        // INTERACTIONS
+        let token_client = token::Client::new(&env, &escrow.token);
+        token_client.transfer(
+            &env.current_contract_address(),
+            &escrow.depositor,
+            &escrow.amount,
+        );
+
+        events::safety_deposit_withdrawn(&env, escrow_id, escrow.amount);
+        Ok(())
     }
 }

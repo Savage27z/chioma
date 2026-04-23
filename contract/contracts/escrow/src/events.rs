@@ -106,3 +106,39 @@ pub(crate) fn escrow_unfrozen(
     }
     .publish(env);
 }
+
+#[contractevent(topics = ["rent_released"])]
+pub struct RentReleased {
+    #[topic]
+    pub escrow_id: BytesN<32>,
+    pub beneficiary_share: i128,
+    pub governance_share: i128,
+    pub agent_share: i128,
+}
+
+#[contractevent(topics = ["safety_deposit_withdrawn"])]
+pub struct SafetyDepositWithdrawn {
+    #[topic]
+    pub escrow_id: BytesN<32>,
+    pub amount: i128,
+}
+
+pub(crate) fn rent_released(
+    env: &Env,
+    escrow_id: BytesN<32>,
+    beneficiary_share: i128,
+    governance_share: i128,
+    agent_share: i128,
+) {
+    RentReleased {
+        escrow_id,
+        beneficiary_share,
+        governance_share,
+        agent_share,
+    }
+    .publish(env);
+}
+
+pub(crate) fn safety_deposit_withdrawn(env: &Env, escrow_id: BytesN<32>, amount: i128) {
+    SafetyDepositWithdrawn { escrow_id, amount }.publish(env);
+}
