@@ -12,6 +12,7 @@ mod agreement;
 mod deposit_interest;
 mod errors;
 mod events;
+mod gas_optimization;
 mod multi_sig;
 mod multi_token;
 mod rate_limit;
@@ -60,6 +61,10 @@ pub use agreement::{
     validate_agreement_params,
 };
 pub use errors::RentalError;
+pub use gas_optimization::{
+    estimate_gas_cost, get_gas_metrics, optimize_operation, GasMetrics, OperationType,
+    OptimizationSuggestion,
+};
 pub use multi_token::{
     add_supported_token, convert_amount, get_exchange_rate, get_supported_tokens,
     is_token_supported, remove_supported_token, set_exchange_rate,
@@ -1266,5 +1271,30 @@ impl Contract {
     /// Get total count of timelock actions ever queued.
     pub fn get_timelock_action_count(env: Env) -> u32 {
         timelock::get_action_count(&env)
+    }
+
+    // ─── Gas Optimisation ─────────────────────────────────────────────────────
+
+    /// Estimate the gas cost for a given operation type.
+    ///
+    /// Returns a conservative upper-bound estimate in Soroban gas units.
+    pub fn estimate_gas_cost(
+        env: Env,
+        operation: OperationType,
+    ) -> Result<u64, RentalError> {
+        gas_optimization::estimate_gas_cost(env, operation)
+    }
+
+    /// Return persisted gas metrics for all tracked operations.
+    pub fn get_gas_metrics(env: Env) -> Result<Vec<GasMetrics>, RentalError> {
+        gas_optimization::get_gas_metrics(env)
+    }
+
+    /// Return an optimisation suggestion for the given operation.
+    pub fn optimize_operation(
+        env: Env,
+        operation: OperationType,
+    ) -> Result<OptimizationSuggestion, RentalError> {
+        gas_optimization::optimize_operation(env, operation)
     }
 }

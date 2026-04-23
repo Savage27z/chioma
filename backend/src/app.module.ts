@@ -57,6 +57,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { LockModule } from './common/lock';
 import { IdempotencyModule } from './common/idempotency';
 import { FraudModule } from './modules/fraud/fraud.module';
+import { TransactionModule } from './modules/transactions/transaction.module';
 
 const appLogger = new Logger('AppModule');
 
@@ -230,6 +231,7 @@ const appLogger = new Logger('AppModule');
     ReferralModule,
     InquiriesModule,
     AnalyticsModule,
+    TransactionModule,
     ...(process.env.OPENAPI_GENERATE !== 'true' ? [RateLimitingModule] : []),
     // Maintenance module
     require('./modules/maintenance/maintenance.module').MaintenanceModule,
